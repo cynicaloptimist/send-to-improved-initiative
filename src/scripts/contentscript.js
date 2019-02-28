@@ -7,7 +7,6 @@ var extractStatBlock = () => {
     Name: statBlockElement.querySelector(".mon-stat-block__name a").innerHTML.trim()
   };
 
-  console.log(statBlock);
   return statBlock;
 }
 
