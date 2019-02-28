@@ -10,15 +10,12 @@ storage.get('color', function(resp) {
 });
 
 var template = (data) => {
-  var json = JSON.stringify(data);
   return (`
-  <div class="site-description">
-    <h3 class="title">${data.title}</h3>
-    <p class="description">${data.description}</p>
-    <a href="${data.url}" target="_blank" class="url">${data.url}</a>
+  <div class="statblock-preview">
+    <h3>${data.Name}</h3>
   </div>
   <div class="action-container">
-    <button data-bookmark='${json}' id="save-btn" class="btn btn-primary">Save</button>
+    <button data-bookmark='${JSON.stringify(data)}' id="save-btn" class="btn btn-primary">Save</button>
   </div>
   `);
 }
