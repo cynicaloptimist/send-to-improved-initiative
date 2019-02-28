@@ -8,25 +8,7 @@ var extractTags = () => {
   };
 
   console.log(statBlock);
-  var data = {
-    title: "",
-    description: "",
-    url: document.location.href
-  }
-
-  var ogTitle = document.querySelector("meta[property='og:title']");
-  if(ogTitle) {
-    data.title = ogTitle.getAttribute("content")
-  } else {
-    data.title = document.title
-  }
-
-  var descriptionTag = document.querySelector("meta[property='og:description']") || document.querySelector("meta[name='description']")
-  if(descriptionTag) {
-    data.description = descriptionTag.getAttribute("content")
-  }
-
-  return data;
+  return statBlock;
 }
 
 function onRequest(request, sender, sendResponse) {
