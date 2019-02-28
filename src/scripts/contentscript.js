@@ -1,9 +1,13 @@
 import ext from "./utils/ext";
 
 var extractTags = () => {
-  var url = document.location.href;
-  if(!url || !url.match(/^http/)) return;
+  const statBlockElement = document.querySelector(".mon-stat-block");
 
+  const statBlock = {
+    Name: statBlockElement.querySelector(".mon-stat-block__name a").innerHTML.trim()
+  };
+
+  console.log(statBlock);
   var data = {
     title: "",
     description: "",
