@@ -1,6 +1,6 @@
 import ext from "./utils/ext";
 
-var extractTags = () => {
+var extractStatBlock = () => {
   const statBlockElement = document.querySelector(".mon-stat-block");
 
   const statBlock = {
@@ -13,7 +13,7 @@ var extractTags = () => {
 
 function onRequest(request, sender, sendResponse) {
   if (request.action === 'process-page') {
-    sendResponse(extractTags())
+    sendResponse(extractStatBlock())
   }
 }
 
