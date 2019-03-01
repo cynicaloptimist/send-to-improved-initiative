@@ -67,8 +67,8 @@ gulp.task("manifest", () => {
     .pipe(gulp.dest(`./build/${target}`));
 });
 
-gulp.task("js", () => {
-  return buildJS(target);
+gulp.task("js", done => {
+  return buildJS(target, done);
 });
 
 gulp.task('styles', () => {
@@ -155,7 +155,7 @@ function mergeAll(dest) {
   );
 }
 
-function buildJS(target) {
+function buildJS(target, done) {
   const files = [
     "background.js",
     "contentscript.js",
@@ -193,5 +193,5 @@ function buildJS(target) {
       .pipe(gulp.dest(`build/${target}/scripts`));
   });
 
-  return merge.apply(null, tasks);
+  return merge(tasks).on("end", done);
 }
