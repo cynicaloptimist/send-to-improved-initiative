@@ -79,7 +79,7 @@ gulp.task("styles", () => {
       $.sass
         .sync({
           outputStyle: "expanded",
-      precision: 10,
+          precision: 10,
           includePaths: ["."]
         })
         .on("error", $.sass.logError)
@@ -108,9 +108,7 @@ gulp.task("zip", () => {
   );
 });
 
-gulp.task("dist", cb => {
-  $.runSequence("build", "zip", cb);
-});
+gulp.task("dist", gulp.series(["build", "zip"]));
 
 gulp.task(
   "watch",
