@@ -114,10 +114,7 @@ gulp.task(
   "watch",
   gulp.series(["build"], () => {
     $.livereload.listen();
-
-    gulp.watch(["./src/**/*"]).on("change", () => {
-      $.runSequence("build", $.livereload.reload);
-    });
+    gulp.watch(["./src/**/*"], gulp.series(["build"]));
   })
 );
 
