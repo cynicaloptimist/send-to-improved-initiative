@@ -71,14 +71,19 @@ gulp.task("js", done => {
   return buildJS(target, done);
 });
 
-gulp.task('styles', () => {
-  return gulp.src('src/styles/**/*.scss')
+gulp.task("styles", () => {
+  return gulp
+    .src("src/styles/**/*.scss")
     .pipe($.plumber())
-    .pipe($.sass.sync({
-      outputStyle: 'expanded',
+    .pipe(
+      $.sass
+        .sync({
+          outputStyle: "expanded",
       precision: 10,
-      includePaths: ['.']
-    }).on('error', $.sass.logError))
+          includePaths: ["."]
+        })
+        .on("error", $.sass.logError)
+    )
     .pipe(gulp.dest(`build/${target}/styles`));
 });
 
