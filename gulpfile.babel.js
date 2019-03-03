@@ -92,9 +92,6 @@ gulp.task(
   gulp.series(["manifest", "js"], done => mergeAll(target).on("end", done))
 );
 
-// gulp.task('build', (cb) => {
-//   $.runSequence('clean', 'styles', 'ext', cb)
-// });
 gulp.task("build", gulp.series(["clean", "styles", "ext"]));
 
 // -----------------
