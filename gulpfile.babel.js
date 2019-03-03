@@ -89,7 +89,7 @@ gulp.task("styles", () => {
 
 gulp.task(
   "ext",
-  gulp.series(["manifest", "js"], done => mergeAll(target).on("end", done))
+  gulp.parallel(["manifest", "js"], done => mergeAll(target).on("end", done))
 );
 
 gulp.task("build", gulp.series(["clean", "styles", "ext"]));
