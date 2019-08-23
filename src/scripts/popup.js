@@ -13,6 +13,7 @@ var template = (data) => {
   return (`
   <div class="statblock-preview">
     <h3>${data.Name}</h3>
+    <p>HP: ${data.HP.Value} ${data.HP.Notes}</p>
   </div>
   <div class="action-container">
     <button data-bookmark='${JSON.stringify(data)}' id="save-btn" class="btn btn-primary">Save</button>
