@@ -2,6 +2,8 @@
   "name": "send-to-improved-initiative",
   "version": "0.0.1",
   "description": "A cross browser extension that imports D&D Beyond StatBlocks into Improved Initiative",
+  "repository": {"url": "https://github.com/cynicaloptimist/send-to-improved-initiative"},
+  "license": "MIT",
   "scripts": {
     "chrome-build": "cross-env TARGET=chrome gulp",
     "opera-build": "cross-env TARGET=opera gulp",
