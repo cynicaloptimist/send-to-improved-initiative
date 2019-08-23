@@ -1,10 +1,14 @@
 import ext from "./utils/ext";
 
+function getNameFrom(element) {
+  return element.querySelector(".mon-stat-block__name a").innerHTML.trim();
+}
+
 var extractStatBlock = () => {
   const statBlockElement = document.querySelector(".mon-stat-block");
 
   const statBlock = {
-    Name: statBlockElement.querySelector(".mon-stat-block__name a").innerHTML.trim()
+    Name: getNameFrom(statBlockElement)
   };
 
   return statBlock;
