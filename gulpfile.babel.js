@@ -7,6 +7,7 @@ import buffer from "vinyl-buffer";
 import rename from "gulp-rename";
 import preprocessify from "preprocessify";
 import tsify from "tsify";
+import uglify from "gulp-uglify-es";
 import gulpif from "gulp-if";
 const $ = require("gulp-load-plugins")();
 
@@ -179,7 +180,7 @@ function buildJS(target, done) {
       .pipe(
         gulpif(
           production,
-          $.uglify({
+          uglify({
             mangle: false,
             output: {
               ascii_only: true
