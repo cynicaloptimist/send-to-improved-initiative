@@ -15,6 +15,7 @@ var template = (data) => {
   return (`
   <div class="statblock-preview">
     <h3>${data.Name}</h3>
+    <p>AC: ${data.AC.Value} ${data.AC.Notes}</p>
     <p>HP: ${data.HP.Value} ${data.HP.Notes}</p>
   </div>
   <div class="action-container">

@@ -1,4 +1,5 @@
 import cash, { Cash } from "cash-dom";
+import { StatBlock } from "./StatBlock";
 
 function getNameFrom(element: Cash) {
   return element.find(".mon-stat-block__name a").text().trim();
@@ -19,7 +20,7 @@ export const extractStatBlock = () => {
   const doc = cash(document);
   const statBlockElement = doc.find(".mon-stat-block");
 
-  const statBlock = {
+  const statBlock: Partial<StatBlock> = {
     Name: getNameFrom(statBlockElement),
     HP: getHpFrom(statBlockElement)
   };
