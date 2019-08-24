@@ -1,13 +1,15 @@
 import ext from "./utils/ext";
+import jQuery from "jquery";
 
-function getNameFrom(element) {
-  return element.querySelector(".mon-stat-block__name a").innerHTML.trim();
+function getNameFrom(element: JQuery<Element>) {
+  return element.find(".mon-stat-block__name a").text().trim();
 }
 
-function getHpFrom(element) {
-  const label = Array.from<Element>(element.querySelectorAll(".mon-stat-block__attribute-label")).filter(e => e.innerHTML == "Hit Points")[0];
-  const value = parseInt(label.parentElement.querySelector(".mon-stat-block__attribute-data-value").innerHTML.trim());
-  const notes = label.parentElement.querySelector(".mon-stat-block__attribute-data-extra").innerHTML.trim();
+function getHpFrom(element: JQuery<Element>) {
+  const label = element.find(".mon-stat-block__attribute-label:contains(Hit Points)")
+    .filter((_, e) => e.innerHTML.trim() == "Hit Points" ).first();
+  const value = parseInt(label.parent().find(".mon-stat-block__attribute-data-value").text().trim());
+  const notes = label.parent().find(".mon-stat-block__attribute-data-extra").text().trim();
   return {
     Value: value,
     Notes: notes
@@ -15,7 +17,8 @@ function getHpFrom(element) {
 }
 
 var extractStatBlock = () => {
-  const statBlockElement = document.querySelector(".mon-stat-block");
+  const doc = jQuery(document);
+  const statBlockElement = doc.find(".mon-stat-block") as unknown as JQuery<Element>;
 
   const statBlock = {
     Name: getNameFrom(statBlockElement),
