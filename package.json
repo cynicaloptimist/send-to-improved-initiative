@@ -24,6 +24,7 @@
     "Bharani <bharani91@gmail.com> (https://github.com/bharani91)"
   ],
   "devDependencies": {
+    "@types/node": "^12.7.2",
     "babel-core": "^6.1.2",
     "babel-preset-es2015": "^6.1.2",
     "babelify": "^7.3.0",
@@ -46,6 +47,8 @@
     "gulp-uglify": "^3.0.2",
     "gulp-zip": "^5.0.0",
     "preprocessify": "^1.0.1",
+    "tsify": "^4.0.1",
+    "typescript": "^3.5.3",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   },

@@ -4,9 +4,10 @@ import { merge } from "event-stream";
 import browserify from "browserify";
 import source from "vinyl-source-stream";
 import buffer from "vinyl-buffer";
+import rename from "gulp-rename";
 import preprocessify from "preprocessify";
+import tsify from "tsify";
 import gulpif from "gulp-if";
-
 const $ = require("gulp-load-plugins")();
 
 var production = process.env.NODE_ENV === "production";
@@ -152,11 +153,11 @@ function mergeAll(dest) {
 
 function buildJS(target, done) {
   const files = [
-    "background.js",
-    "contentscript.js",
-    "options.js",
-    "popup.js",
-    "livereload.js"
+    "background.ts",
+    "contentscript.ts",
+    "options.ts",
+    "popup.ts",
+    "livereload.ts"
   ];
 
   let tasks = files.map(file => {
@@ -164,9 +165,10 @@ function buildJS(target, done) {
       entries: "src/scripts/" + file,
       debug: true
     })
+      .plugin(tsify)
       .transform("babelify", { presets: ["es2015"] })
       .transform(preprocessify, {
-        includeExtensions: [".js"],
+        includeExtensions: [".ts"],
         context: context
       })
       .bundle()
@@ -184,6 +186,11 @@ function buildJS(target, done) {
             }
           })
         )
+      )
+      .pipe(
+        rename({
+          extname: ".js"
+        })
       )
       .pipe(gulp.dest(`build/${target}/scripts`));
   });

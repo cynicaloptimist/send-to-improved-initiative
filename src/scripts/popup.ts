@@ -1,6 +1,8 @@
 import ext from "./utils/ext";
 import storage from "./utils/storage";
 
+declare const chrome: any;
+
 var popup = document.getElementById("app");
 storage.get('color', function(resp) {
   var color = resp.color;
@@ -40,10 +42,11 @@ ext.tabs.query({active: true, currentWindow: true}, function(tabs) {
   chrome.tabs.sendMessage(activeTab.id, { action: 'process-page' }, renderBookmark);
 });
 
-popup.addEventListener("click", function(e) {
-  if(e.target && e.target.matches("#save-btn")) {
+popup.addEventListener("click", function (e) {
+  const target: Element = e.target as Element;
+  if(target && target.matches("#save-btn")) {
     e.preventDefault();
-    var data = e.target.getAttribute("data-bookmark");
+    var data = target.getAttribute("data-bookmark");
     ext.runtime.sendMessage({ action: "perform-save", data: data }, function(response) {
       if(response && response.action === "saved") {
         renderMessage("Your bookmark was saved successfully!");

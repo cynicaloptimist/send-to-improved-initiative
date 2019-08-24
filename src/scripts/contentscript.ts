@@ -5,7 +5,7 @@ function getNameFrom(element) {
 }
 
 function getHpFrom(element) {
-  const label = Array.from(element.querySelectorAll(".mon-stat-block__attribute-label")).filter(e => e.innerHTML == "Hit Points")[0];
+  const label = Array.from<Element>(element.querySelectorAll(".mon-stat-block__attribute-label")).filter(e => e.innerHTML == "Hit Points")[0];
   const value = parseInt(label.parentElement.querySelector(".mon-stat-block__attribute-data-value").innerHTML.trim());
   const notes = label.parentElement.querySelector(".mon-stat-block__attribute-data-extra").innerHTML.trim();
   return {
