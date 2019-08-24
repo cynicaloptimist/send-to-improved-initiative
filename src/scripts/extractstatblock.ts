@@ -1,6 +1,19 @@
 import cash, { Cash } from "cash-dom";
 import { StatBlock } from "./StatBlock";
 
+export const extractStatBlock = () => {
+  const doc = cash(document);
+  const statBlockElement = doc.find(".mon-stat-block");
+
+  const statBlock: Partial<StatBlock> = {
+    Name: getNameFrom(statBlockElement),
+    HP: getHpFrom(statBlockElement),
+    AC: getAcFrom(statBlockElement),
+  };
+
+  return statBlock;
+}
+
 function getNameFrom(element: Cash) {
   return element.find(".mon-stat-block__name a").text().trim();
 }
@@ -24,15 +37,3 @@ function getAttribute(element: Cash, attributeName: string) {
   };
 }
 
-export const extractStatBlock = () => {
-  const doc = cash(document);
-  const statBlockElement = doc.find(".mon-stat-block");
-
-  const statBlock: Partial<StatBlock> = {
-    Name: getNameFrom(statBlockElement),
-    HP: getHpFrom(statBlockElement),
-    AC: getAcFrom(statBlockElement)
-  };
-
-  return statBlock;
-}
