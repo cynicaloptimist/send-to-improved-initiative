@@ -1,13 +1,13 @@
 import ext from "./utils/ext";
-import jQuery from "jquery";
+import cash, { Cash } from "cash-dom";
 
-function getNameFrom(element: JQuery<Element>) {
+function getNameFrom(element: Cash) {
   return element.find(".mon-stat-block__name a").text().trim();
 }
 
-function getHpFrom(element: JQuery<Element>) {
-  const label = element.find(".mon-stat-block__attribute-label:contains(Hit Points)")
-    .filter((_, e) => e.innerHTML.trim() == "Hit Points" ).first();
+function getHpFrom(element: Cash) {
+  const label = element.find(".mon-stat-block__attribute-label")
+    .filter((_, e: Element) => e.innerHTML.trim() == "Hit Points" ).first();
   const value = parseInt(label.parent().find(".mon-stat-block__attribute-data-value").text().trim());
   const notes = label.parent().find(".mon-stat-block__attribute-data-extra").text().trim();
   return {
@@ -17,8 +17,8 @@ function getHpFrom(element: JQuery<Element>) {
 }
 
 var extractStatBlock = () => {
-  const doc = jQuery(document);
-  const statBlockElement = doc.find(".mon-stat-block") as unknown as JQuery<Element>;
+  const doc = cash(document);
+  const statBlockElement = doc.find(".mon-stat-block");
 
   const statBlock = {
     Name: getNameFrom(statBlockElement),
