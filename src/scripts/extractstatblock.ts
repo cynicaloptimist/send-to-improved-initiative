@@ -1,5 +1,6 @@
 import cash, { Cash } from "cash-dom";
 import { StatBlock } from "./StatBlock";
+import { compileFunction } from "vm";
 
 export const extractStatBlock = () => {
   const doc = cash(document);
@@ -9,6 +10,7 @@ export const extractStatBlock = () => {
     Name: getNameFrom(statBlockElement),
     HP: getHpFrom(statBlockElement),
     AC: getAcFrom(statBlockElement),
+    Speed: getSpeeds(statBlockElement)
   };
 
   return statBlock;
@@ -29,11 +31,19 @@ function getHpFrom(element: Cash) {
 function getAttribute(element: Cash, attributeName: string) {
   const label = element.find(".mon-stat-block__attribute-label")
     .filter((_, e: Element) => e.innerHTML.trim() == attributeName).first();
+  
   const value = parseInt(label.parent().find(".mon-stat-block__attribute-data-value").text().trim());
   const notes = label.parent().find(".mon-stat-block__attribute-data-extra").text().trim();
   return {
     Value: value,
     Notes: notes
   };
+}
+
+function getSpeeds(element: Cash) {
+  const label = element.find(".mon-stat-block__attribute-label")
+    .filter((_, e: Element) => e.innerHTML.trim() == "Speed").first();
+  const commaSeparatedSpeeds = label.parent().find(".mon-stat-block__attribute-data-value").text().trim();
+  return commaSeparatedSpeeds.split(",").map(s => s.trim());
 }
 

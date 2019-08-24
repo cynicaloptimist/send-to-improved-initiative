@@ -17,6 +17,7 @@ var template = (data) => {
     <h3>${data.Name}</h3>
     <p>AC: ${data.AC.Value} ${data.AC.Notes}</p>
     <p>HP: ${data.HP.Value} ${data.HP.Notes}</p>
+    <p>Speed: ${data.Speed}</p>
   </div>
   <div class="action-container">
     <button data-bookmark='${JSON.stringify(data)}' id="save-btn" class="btn btn-primary">Save</button>
