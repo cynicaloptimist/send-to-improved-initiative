@@ -7,24 +7,24 @@ export const extractStatBlock = () => {
   const statBlockElement = doc.find(".mon-stat-block");
 
   const statBlock: Partial<StatBlock> = {
-    Name: getNameFrom(statBlockElement),
-    HP: getHpFrom(statBlockElement),
-    AC: getAcFrom(statBlockElement),
+    Name: getName(statBlockElement),
+    HP: getHitPoints(statBlockElement),
+    AC: getArmorClass(statBlockElement),
     Speed: getSpeeds(statBlockElement)
   };
 
   return statBlock;
 }
 
-function getNameFrom(element: Cash) {
+function getName(element: Cash) {
   return element.find(".mon-stat-block__name a").text().trim();
 }
 
-function getAcFrom(element: Cash) {
+function getArmorClass(element: Cash) {
   return getAttribute(element, "Armor Class");
 }
 
-function getHpFrom(element: Cash) {
+function getHitPoints(element: Cash) {
   return getAttribute(element, "Hit Points");
 }
 
