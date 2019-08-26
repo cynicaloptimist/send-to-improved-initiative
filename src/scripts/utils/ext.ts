@@ -22,6 +22,8 @@ const apis = [
   'windows',
 ]
 
+declare var chrome, browser;
+
 function Extension () {
   const _this = this
 
@@ -65,4 +67,4 @@ function Extension () {
 
 }
 
-module.exports = new Extension();
+export default new Extension();
