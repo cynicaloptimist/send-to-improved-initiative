@@ -12,7 +12,27 @@ export const extractStatBlock = () => {
     Type: getType(statBlockElement),
     HP: getHitPoints(statBlockElement),
     AC: getArmorClass(statBlockElement),
-    Speed: getSpeeds(statBlockElement)
+    Speed: getSpeeds(statBlockElement),
+    // Abilities: AbilityScores,
+    // InitiativeModifier?: number,
+    // InitiativeSpecialRoll?: "advantage" | "disadvantage" | "take-ten",
+    // InitiativeAdvantage?: boolean,
+    // DamageVulnerabilities: string[],
+    // DamageResistances: string[],
+    // DamageImmunities: string[],
+    // ConditionImmunities: string[],
+    // Saves: NameAndModifier[],
+    // Skills: NameAndModifier[],
+    // Senses: string[],
+    // Languages: string[],
+    // Challenge: string,
+    // Traits: NameAndContent[],
+    // Actions: NameAndContent[],
+    // Reactions: NameAndContent[],
+    // LegendaryActions: NameAndContent[],
+    // Description: string,
+    // Player: string,
+    // ImageURL: string,
   };
 
   return statBlock;
