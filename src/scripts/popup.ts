@@ -1,7 +1,8 @@
 import ext from "./utils/ext";
 import storage from "./utils/storage";
 
-declare const chrome: any;
+const tabs: typeof chrome.tabs = ext.tabs;
+const runtime: typeof chrome.runtime = ext.runtime;
 
 var popup = document.getElementById("app");
 storage.get('color', function(resp) {
@@ -39,7 +40,7 @@ var renderBookmark = (data) => {
   }
 }
 
-ext.tabs.query({active: true, currentWindow: true}, function(tabs) {
+tabs.query({active: true, currentWindow: true}, function(tabs) {
   var activeTab = tabs[0];
   chrome.tabs.sendMessage(activeTab.id, { action: 'process-page' }, renderBookmark);
 });
@@ -49,7 +50,7 @@ popup.addEventListener("click", function (e) {
   if(target && target.matches("#save-btn")) {
     e.preventDefault();
     var data = target.getAttribute("data-bookmark");
-    ext.runtime.sendMessage({ action: "perform-save", data: data }, function(response) {
+    runtime.sendMessage({ action: "perform-save", data: data }, function(response) {
       if(response && response.action === "saved") {
         renderMessage("Your bookmark was saved successfully!");
       } else {
@@ -62,5 +63,5 @@ popup.addEventListener("click", function (e) {
 var optionsLink = document.querySelector(".js-options");
 optionsLink.addEventListener("click", function(e) {
   e.preventDefault();
-  ext.tabs.create({'url': ext.extension.getURL('options.html')});
+  tabs.create({'url': ext.extension.getURL('options.html')});
 })
