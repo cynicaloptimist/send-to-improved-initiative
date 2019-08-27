@@ -1,6 +1,5 @@
 import cash, { Cash } from "cash-dom";
-import { StatBlock } from "./StatBlock";
-import { compileFunction } from "vm";
+import { StatBlock, AbilityScores } from "./StatBlock";
 
 export const extractStatBlock = () => {
   const doc = cash(document);
@@ -13,7 +12,7 @@ export const extractStatBlock = () => {
     HP: getHitPoints(statBlockElement),
     AC: getArmorClass(statBlockElement),
     Speed: getSpeeds(statBlockElement),
-    // Abilities: AbilityScores,
+    Abilities: getAbilities(statBlockElement),
     // InitiativeModifier?: number,
     // InitiativeSpecialRoll?: "advantage" | "disadvantage" | "take-ten",
     // InitiativeAdvantage?: boolean,
@@ -73,3 +72,23 @@ function getSpeeds(element: Cash) {
   return commaSeparatedSpeeds.split(",").map(s => s.trim());
 }
 
+function getAbilities(element: Cash): AbilityScores {
+  return {
+    Str: getAbility(element, "str"),
+    Dex: getAbility(element, "dex"),
+    Con: getAbility(element, "con"),
+    Int: getAbility(element, "int"),
+    Wis: getAbility(element, "wis"),
+    Cha: getAbility(element, "cha"),
+  }
+}
+
+function getAbility(element: Cash, ability: string) {
+  let score = 10;
+  const scoreText = element.find(`.ability-block__stat--${ability} .ability-block__score`).text();
+  try {
+    score = parseInt(scoreText);
+  }
+  catch (e){}
+  return score;
+}
