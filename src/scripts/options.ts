@@ -1,4 +1,3 @@
-import ext from "./utils/ext";
 import storage from "./utils/storage";
 
 var colorSelectors = document.querySelectorAll(".js-radio");

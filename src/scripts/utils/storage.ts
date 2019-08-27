@@ -1,3 +1,6 @@
 import ext from "./ext";
 
-export default (ext.storage.sync ? ext.storage.sync : ext.storage.local);
+const storage: chrome.storage.StorageArea = ext.storage.sync
+  ? ext.storage.sync
+  : ext.storage.local;
+export default storage;
