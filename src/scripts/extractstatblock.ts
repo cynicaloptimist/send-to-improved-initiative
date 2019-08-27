@@ -7,6 +7,7 @@ export const extractStatBlock = () => {
   const statBlockElement = doc.find(".mon-stat-block");
 
   const statBlock: Partial<StatBlock> = {
+    Source: doc.find(".monster-source").text(),
     Name: getName(statBlockElement),
     Type: getType(statBlockElement),
     HP: getHitPoints(statBlockElement),
