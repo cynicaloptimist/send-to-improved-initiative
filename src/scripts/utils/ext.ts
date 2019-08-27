@@ -22,7 +22,7 @@ const apis = [
   'windows',
 ]
 
-declare var chrome, browser;
+declare var browser: typeof chrome;
 
 function Extension () {
   const _this = this
