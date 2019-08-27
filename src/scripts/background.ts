@@ -1,11 +1,13 @@
 import ext from "./utils/ext";
+const runtime: typeof chrome.runtime = ext.runtime;
+const tabs: typeof chrome.tabs = ext.tabs;
 
-ext.runtime.onMessage.addListener(
+runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    if(request.action === "perform-save") {
-      console.log("Extension Type: ", "/* @echo extension */");
-      console.log("PERFORM AJAX", request.data);
-
+    if (request.action === "perform-save") {
+      tabs.create({
+        url: "http://localhost/e/?importStatBlock=" + encodeURIComponent(request.data)
+      });
       sendResponse({ action: "saved" });
     }
   }
