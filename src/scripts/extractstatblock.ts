@@ -1,5 +1,5 @@
 import cash, { Cash } from "cash-dom";
-import { StatBlock, AbilityScores } from "./StatBlock";
+import { StatBlock, AbilityScores, NameAndContent } from "./StatBlock";
 
 export const extractStatBlock = () => {
   const doc = cash(document);
@@ -42,10 +42,10 @@ export const extractStatBlock = () => {
     Senses: getCommaSeparatedStrings(statBlockElement, "Senses"),
     Languages: getCommaSeparatedStrings(statBlockElement, "Languages"),
     // Challenge: string,
-    // Traits: NameAndContent[],
-    // Actions: NameAndContent[],
+    Traits: getPowers(statBlockElement, "Traits"),
+    Actions: getPowers(statBlockElement, "Actions"),
+    LegendaryActions: getPowers(statBlockElement, "Legendary Actions"),
     // Reactions: NameAndContent[],
-    // LegendaryActions: NameAndContent[],
     // Description: string,
     // Player: string,
     // ImageURL: string,
@@ -154,4 +154,33 @@ function getCommaSeparatedModifiers(element: Cash, tidbitName: string) {
   });
 }
 
-function getPowers(element: Cash, type: string) {}
+function getPowers(element: Cash, type: string): NameAndContent [] {
+  const section = getPowerSection(element, type);
+  return section.children("p").get().map((el) => {
+    const contentNode = cash(el).clone();
+    contentNode.children("em").remove();
+    return {
+      Name: cash(el).find("em strong").text().trim().slice(0,-1),
+      Content: contentNode.text().trim()
+    };
+  });
+}
+
+function getPowerSection(element: Cash, type: string) {
+  if (type == "Traits") {
+    return element.find(".mon-stat-block__description-block-content").filter(
+      (i, e) =>
+        cash(e)
+          .parent()
+          .has(".mon-stat-block__description-block-heading").length == 0
+    );
+  }
+
+  return element.find(".mon-stat-block__description-block-content").filter(
+    (i, e) =>
+      cash(e)
+        .parent()
+        .find(".mon-stat-block__description-block-heading")
+        .text() == type
+  );
+}
