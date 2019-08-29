@@ -17,10 +17,7 @@ export const extractStatBlock = () => {
     HP: getHitPoints(statBlockElement),
     AC: getArmorClass(statBlockElement),
     Abilities: getAbilities(statBlockElement),
-    Speed: getCommaSeparatedStrings(
-      statBlockElement,
-      "Speed"
-    ),
+    Speed: getCommaSeparatedStrings(statBlockElement, "Speed"),
     // InitiativeModifier?: number,
     // InitiativeSpecialRoll?: "advantage" | "disadvantage" | "take-ten",
     // InitiativeAdvantage?: boolean,
@@ -40,22 +37,10 @@ export const extractStatBlock = () => {
       statBlockElement,
       "Condition Immunities"
     ),
-    Saves: getCommaSeparatedModifiers(
-      statBlockElement,
-      "Saving Throws"
-    ),
-    Skills: getCommaSeparatedModifiers(
-      statBlockElement,
-      "Saving Throws"
-    ),
-    Senses: getCommaSeparatedStrings(
-      statBlockElement,
-      "Senses"
-    ),
-    Languages: getCommaSeparatedStrings(
-      statBlockElement,
-      "Languages"
-    ),
+    Saves: getCommaSeparatedModifiers(statBlockElement, "Saving Throws"),
+    Skills: getCommaSeparatedModifiers(statBlockElement, "Saving Throws"),
+    Senses: getCommaSeparatedStrings(statBlockElement, "Senses"),
+    Languages: getCommaSeparatedStrings(statBlockElement, "Languages"),
     // Challenge: string,
     // Traits: NameAndContent[],
     // Actions: NameAndContent[],
@@ -138,10 +123,16 @@ function getAbility(element: Cash, ability: string) {
 }
 
 function getCommaSeparatedStrings(element: Cash, tidbitName: string) {
-  const label = element.find(".mon-stat-block__tidbit-label")
-    .filter((_, e: Element) => e.innerHTML.trim() == tidbitName).first();
+  const label = element
+    .find(".mon-stat-block__tidbit-label")
+    .filter((_, e: Element) => e.innerHTML.trim() == tidbitName)
+    .first();
 
-  const commaDelimitedString = label.parent().find(".mon-stat-block__tidbit-data").text().trim();
+  const commaDelimitedString = label
+    .parent()
+    .find(".mon-stat-block__tidbit-data")
+    .text()
+    .trim();
   if (commaDelimitedString.length > 0) {
     return commaDelimitedString.split(/, ?/).map(s => s.trim());
   }
