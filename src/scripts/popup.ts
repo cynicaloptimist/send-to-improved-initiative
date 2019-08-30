@@ -23,7 +23,7 @@ var template = (data) => {
     </pre>
   </div>
   <div class="action-container">
-    <button data-bookmark='${JSON.stringify(data)}' id="save-btn" class="btn btn-primary">Save</button>
+    <button id="save-btn" class="btn btn-primary">Save</button>
   </div>
   `);
 }
