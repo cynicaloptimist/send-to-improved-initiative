@@ -4,6 +4,8 @@ import storage from "./utils/storage";
 const tabs: typeof chrome.tabs = ext.tabs;
 const runtime: typeof chrome.runtime = ext.runtime;
 
+let importedStatBlock = {};
+
 var popup = document.getElementById("app");
 storage.get('color', function(resp) {
   var color = resp.color;
@@ -35,6 +37,7 @@ var renderBookmark = (data) => {
   if(data) {
     var tmpl = template(data);
     displayContainer.innerHTML = tmpl;  
+    importedStatBlock = data;
   } else {
     renderMessage("Sorry, could not extract this page's title and URL")
   }
@@ -49,8 +52,7 @@ popup.addEventListener("click", function (e) {
   const target: Element = e.target as Element;
   if(target && target.matches("#save-btn")) {
     e.preventDefault();
-    var data = target.getAttribute("data-bookmark");
-    runtime.sendMessage({ action: "perform-save", data: data }, function(response) {
+    runtime.sendMessage({ action: "perform-save", importedStatBlock: importedStatBlock }, function(response) {
       if(response && response.action === "saved") {
         renderMessage("Your bookmark was saved successfully!");
       } else {

@@ -7,7 +7,7 @@ const tabs: typeof chrome.tabs = ext.tabs;
 runtime.onMessage.addListener(
   async function(request, sender, sendResponse) {
     if (request.action === "perform-save") {
-      const compressed = await codec.compress(request.data);
+      const compressed = await codec.compress(JSON.stringify(request.importedStatBlock));
       tabs.create({
         url: "http://localhost/e/?s=" + encodeURIComponent(compressed)
       });
