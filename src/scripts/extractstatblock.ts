@@ -160,16 +160,23 @@ function getChallenge(element: Cash) {
   return matches[0] || "0";
 }
 
-function getPowers(element: Cash, type: string): NameAndContent [] {
+function getPowers(element: Cash, type: string): NameAndContent[] {
   const section = getPowerSection(element, type);
-  return section.children("p").get().map((el) => {
-    const contentNode = cash(el).clone();
-    contentNode.children("em").remove();
-    return {
-      Name: cash(el).find("em strong").text().trim().slice(0,-1),
-      Content: contentNode.text().trim()
-    };
-  });
+  return section
+    .children("p")
+    .get()
+    .map(el => {
+      const contentNode = cash(el).clone();
+      contentNode.children("em").remove();
+      return {
+        Name: cash(el)
+          .find("em strong")
+          .text()
+          .trim()
+          .replace(/\.$/, ""),
+        Content: contentNode.text().trim()
+      };
+    });
 }
 
 function getPowerSection(element: Cash, type: string) {
