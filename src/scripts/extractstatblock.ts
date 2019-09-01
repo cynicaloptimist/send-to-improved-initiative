@@ -45,10 +45,7 @@ export const extractStatBlock = () => {
     Traits: getPowers(statBlockElement, "Traits"),
     Actions: getPowers(statBlockElement, "Actions"),
     LegendaryActions: getPowers(statBlockElement, "Legendary Actions"),
-    // Reactions: NameAndContent[],
-    // Description: string,
-    // Player: string,
-    // ImageURL: string,
+    ImageURL: doc.find(".details-aside .image a").attr("href")
   };
 
   return statBlock;
