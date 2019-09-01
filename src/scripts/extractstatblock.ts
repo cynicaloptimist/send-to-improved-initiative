@@ -162,7 +162,8 @@ function getChallenge(element: Cash) {
 
 function getPowers(element: Cash, type: string): NameAndContent[] {
   const section = getPowerSection(element, type);
-  return section
+
+  const powerEntries = section
     .children("p")
     .get()
     .map(el => {
@@ -177,6 +178,30 @@ function getPowers(element: Cash, type: string): NameAndContent[] {
         Content: contentNode.text().trim()
       };
     });
+  
+  return collapsePowerDescriptions(powerEntries);
+}
+
+function collapsePowerDescriptions(powerEntries: NameAndContent []) {
+  return powerEntries.reduce((p, c, i) => {
+    const isFirstParagraph = i == 0 || c.Name.length > 0;
+    let fullPowerText = c.Content;
+
+    let lookAhead = i;
+    if (isFirstParagraph) {
+      while (
+        powerEntries[++lookAhead] &&
+        powerEntries[lookAhead].Name.length == 0
+      ) {
+        fullPowerText += "\n\n" + powerEntries[lookAhead].Content;
+      }
+      return p.concat({
+        Name: c.Name,
+        Content: fullPowerText
+      });
+    }
+    return p;
+  }, []);
 }
 
 function getPowerSection(element: Cash, type: string) {
