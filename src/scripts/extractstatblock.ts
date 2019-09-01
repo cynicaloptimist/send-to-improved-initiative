@@ -156,6 +156,9 @@ function getCommaSeparatedModifiers(element: Cash, tidbitName: string) {
 
 function getChallenge(element: Cash) {
   const challengeText = getCommaSeparatedStrings(element, "Challenge");
+  if (challengeText.length == 0) {
+    return "0";
+  }
   const matches = challengeText[0].match(/\d{1,2}/);
   return matches[0] || "0";
 }
