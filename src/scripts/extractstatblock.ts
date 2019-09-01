@@ -41,7 +41,7 @@ export const extractStatBlock = () => {
     Skills: getCommaSeparatedModifiers(statBlockElement, "Saving Throws"),
     Senses: getCommaSeparatedStrings(statBlockElement, "Senses"),
     Languages: getCommaSeparatedStrings(statBlockElement, "Languages"),
-    // Challenge: string,
+    Challenge: getChallenge(statBlockElement),
     Traits: getPowers(statBlockElement, "Traits"),
     Actions: getPowers(statBlockElement, "Actions"),
     LegendaryActions: getPowers(statBlockElement, "Legendary Actions"),
@@ -152,6 +152,12 @@ function getCommaSeparatedModifiers(element: Cash, tidbitName: string) {
       Modifier: modifierValue
     };
   });
+}
+
+function getChallenge(element: Cash) {
+  const challengeText = getCommaSeparatedStrings(element, "Challenge");
+  const matches = challengeText[0].match(/\d{1,2}/);
+  return matches[0] || "0";
 }
 
 function getPowers(element: Cash, type: string): NameAndContent [] {
