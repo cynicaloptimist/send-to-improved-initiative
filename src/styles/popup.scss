@@ -89,4 +89,7 @@ footer {
 
 .statblock-preview__json {
   white-space: pre-wrap;
+  max-height: 350px;
+  overflow-y: auto;
+  overflow-x: hidden
 }
