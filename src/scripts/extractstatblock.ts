@@ -121,13 +121,13 @@ function getAbility(element: Cash, ability: string) {
 
 function getCommaSeparatedStrings(element: Cash, tidbitName: string) {
   const label = element
-    .find(".mon-stat-block__tidbit-label")
+    .find(".mon-stat-block__attribute-label, .mon-stat-block__tidbit-label")
     .filter((_, e: Element) => e.innerHTML.trim() == tidbitName)
     .first();
 
   const commaDelimitedString = label
     .parent()
-    .find(".mon-stat-block__tidbit-data")
+    .find(".mon-stat-block__attribute-data-value, .mon-stat-block__tidbit-data")
     .text()
     .trim();
   if (commaDelimitedString.length > 0) {
