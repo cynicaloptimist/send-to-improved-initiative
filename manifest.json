@@ -16,8 +16,7 @@
   "permissions": [
     "tabs",
     "storage",
-    "http://*/*",
-    "https://*/*"
+    "https://www.dndbeyond.com/*/*"
   ],
   "options_ui": {
     "page": "options.html"
@@ -25,8 +24,7 @@
   "content_scripts": [
     {
       "matches": [
-        "http://*/*",
-        "https://*/*"
+        "https://www.dndbeyond.com/*/*"
       ],
       "js": [
         "scripts/contentscript.js"
