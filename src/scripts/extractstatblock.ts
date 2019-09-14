@@ -5,7 +5,7 @@ export const extractStatBlock = () => {
   const doc = cash(document);
   const statBlockElement = doc.find(".mon-stat-block");
 
-  const statBlock: Partial<StatBlock> = {
+  const statBlock: StatBlock = {
     Source: doc
       .find(".monster-source")
       .text()
@@ -44,8 +44,13 @@ export const extractStatBlock = () => {
     Challenge: getChallenge(statBlockElement),
     Traits: getPowers(statBlockElement, "Traits"),
     Actions: getPowers(statBlockElement, "Actions"),
+    Reactions: [],
     LegendaryActions: getPowers(statBlockElement, "Legendary Actions"),
-    ImageURL: doc.find(".details-aside .image a").attr("href")
+    ImageURL: doc.find(".details-aside .image a").attr("href"),
+    Description: doc
+      .find(".mon-details__description-block-content")
+      .text()
+      .trim(),
   };
 
   return statBlock;
