@@ -39,7 +39,7 @@ var renderBookmark = (data) => {
     displayContainer.innerHTML = tmpl;  
     importedStatBlock = data;
   } else {
-    renderMessage("Could not scrape a statblock from this page. Please ensure that you are on a statblock detail page.")
+    renderMessage("Could not scrape a StatBlock from this page. Please ensure that you are on a StatBlock detail page.")
   }
 }
 
@@ -54,9 +54,9 @@ popup.addEventListener("click", function (e) {
     e.preventDefault();
     runtime.sendMessage({ action: "perform-save", importedStatBlock: importedStatBlock }, function(response) {
       if(response && response.action === "saved") {
-        renderMessage("Your bookmark was saved successfully!");
+        renderMessage("Your StatBlock was imported successfully!");
       } else {
-        renderMessage("Sorry, there was an error while saving your bookmark.");
+        renderMessage("Sorry, there was an error while importing this StatBlock.");
       }
     })
   }
