@@ -51,6 +51,7 @@ export const extractStatBlock = () => {
       .find(".mon-details__description-block-content")
       .text()
       .trim(),
+    Player: ""
   };
 
   return statBlock;
@@ -183,11 +184,11 @@ function getPowers(element: Cash, type: string): NameAndContent[] {
         Content: contentNode.text().trim()
       };
     });
-  
+
   return collapsePowerDescriptions(powerEntries);
 }
 
-function collapsePowerDescriptions(powerEntries: NameAndContent []) {
+function collapsePowerDescriptions(powerEntries: NameAndContent[]) {
   return powerEntries.reduce((p, c, i) => {
     const isFirstParagraph = i == 0 || c.Name.length > 0;
     let fullPowerText = c.Content;
