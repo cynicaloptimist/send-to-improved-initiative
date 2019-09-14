@@ -39,7 +39,7 @@ var renderBookmark = (data) => {
     displayContainer.innerHTML = tmpl;  
     importedStatBlock = data;
   } else {
-    renderMessage("Sorry, could not extract this page's title and URL")
+    renderMessage("Could not scrape a statblock from this page. Please ensure that you are on a statblock detail page.")
   }
 }
 
