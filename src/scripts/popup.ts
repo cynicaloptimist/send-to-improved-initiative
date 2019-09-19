@@ -11,9 +11,7 @@ var template = (data) => {
   return (`
   <div class="statblock-preview">
     <h3>${data.Name}</h3>
-    <pre class="statblock-preview__json">
-    ${JSON.stringify(data, null, 1)}
-    </pre>
+    <pre class="statblock-preview__json">${JSON.stringify(data, null, 1)}</pre>
   </div>
   <div class="action-container">
     <button id="save-btn" class="btn btn-primary">Save</button>
