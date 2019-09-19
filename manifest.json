@@ -14,7 +14,6 @@
     ]
   },
   "permissions": [
-    "tabs",
     "storage",
     "https://www.dndbeyond.com/*/*"
   ],
