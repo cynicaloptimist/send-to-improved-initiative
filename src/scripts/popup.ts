@@ -1,5 +1,4 @@
 import ext from "./utils/ext";
-import storage from "./utils/storage";
 
 const tabs: typeof chrome.tabs = ext.tabs;
 const runtime: typeof chrome.runtime = ext.runtime;
@@ -7,12 +6,6 @@ const runtime: typeof chrome.runtime = ext.runtime;
 let importedStatBlock = {};
 
 var popup = document.getElementById("app");
-storage.get('color', function(resp) {
-  var color = resp.color;
-  if(color) {
-    popup.style.backgroundColor = color
-  }
-});
 
 var template = (data) => {
   return (`
