@@ -29,6 +29,10 @@ footer {
   min-width: 220px;
   min-height: 100px;
   max-width: 500px;
+  border-color: #822000;
+  border-width: 4px 0px;
+  border-style: solid;
+  padding: 12px 0px;
 }
 
 .app-name {
@@ -91,5 +95,5 @@ footer {
   white-space: pre-wrap;
   max-height: 350px;
   overflow-y: auto;
-  overflow-x: hidden
+  overflow-x: hidden;
 }
