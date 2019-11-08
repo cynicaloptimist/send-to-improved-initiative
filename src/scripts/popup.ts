@@ -33,7 +33,7 @@ var renderMessage = (message) => {
   displayContainer.innerHTML = `<p class='message'>${message}</p>`;
 }
 
-var renderBookmark = (data: StatBlock) => {
+var handleScrapedStatBlock = (data: StatBlock) => {
   var displayContainer = document.getElementById("display-container")
   if(data) {
     var tmpl = template(data);
@@ -47,7 +47,7 @@ var renderBookmark = (data: StatBlock) => {
 
 tabs.query({active: true, currentWindow: true}, function(tabs) {
   var activeTab = tabs[0];
-  chrome.tabs.sendMessage(activeTab.id, { action: 'process-page' }, renderBookmark);
+  chrome.tabs.sendMessage(activeTab.id, { action: 'process-page' }, handleScrapedStatBlock);
 });
 
 popup.addEventListener("click", function (e) {
