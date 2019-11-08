@@ -1,4 +1,5 @@
 import ext from "./utils/ext";
+import { StatBlock } from "./StatBlock";
 
 const tabs: typeof chrome.tabs = ext.tabs;
 const runtime: typeof chrome.runtime = ext.runtime;
@@ -7,23 +8,32 @@ let importedStatBlock = {};
 
 var popup = document.getElementById("app");
 
-var template = (data) => {
+var template = (data: StatBlock) => {
   return (`
   <div class="statblock-preview">
     <h3>${data.Name}</h3>
     <pre class="statblock-preview__json">${JSON.stringify(data, null, 1)}</pre>
   </div>
+  ${verifyOrWarnPortrait(data)}
   <div class="action-container">
     <button id="save-btn" class="btn btn-primary">Import</button>
   </div>
   `);
 }
+
+var verifyOrWarnPortrait = (data: StatBlock) => {
+  if (data.ImageURL.length > 0) {
+    return "";
+  }
+  return `<div class="warning">No portrait was found. Visit a Monster Details page to get the whole picture.</div>`;
+}
+
 var renderMessage = (message) => {
   var displayContainer = document.getElementById("display-container");
   displayContainer.innerHTML = `<p class='message'>${message}</p>`;
 }
 
-var renderBookmark = (data) => {
+var renderBookmark = (data: StatBlock) => {
   var displayContainer = document.getElementById("display-container")
   if(data) {
     var tmpl = template(data);
