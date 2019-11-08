@@ -14,7 +14,7 @@ var template = (data) => {
     <pre class="statblock-preview__json">${JSON.stringify(data, null, 1)}</pre>
   </div>
   <div class="action-container">
-    <button id="save-btn" class="btn btn-primary">Save</button>
+    <button id="save-btn" class="btn btn-primary">Import</button>
   </div>
   `);
 }
