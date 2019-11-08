@@ -157,7 +157,7 @@ function buildJS(target, done) {
     "background.ts",
     "contentscript.ts",
     "options.ts",
-    "popup.ts",
+    "popup.tsx",
     "livereload.ts"
   ];
 
@@ -169,7 +169,7 @@ function buildJS(target, done) {
       .plugin(tsify)
       .transform("babelify", { presets: ["es2015"] })
       .transform(preprocessify, {
-        includeExtensions: [".ts"],
+        includeExtensions: [".ts, .tsx"],
         context: context
       })
       .bundle()
