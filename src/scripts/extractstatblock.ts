@@ -3,8 +3,13 @@ import { StatBlock, AbilityScores, NameAndContent } from "./StatBlock";
 
 export const extractStatBlock = () => {
   const doc = cash(document);
-  const statBlockElement = doc.find(".mon-stat-block");
+  const statBlockElements = doc.find(".mon-stat-block");
 
+  if (statBlockElements.length == 0) {
+    return null;
+  }
+
+  const statBlockElement = statBlockElements.first();
   const statBlock: StatBlock = {
     Source: doc
       .find(".monster-source")
