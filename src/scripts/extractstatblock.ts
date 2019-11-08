@@ -51,7 +51,7 @@ export const extractStatBlock = () => {
     Actions: getPowers(statBlockElement, "Actions"),
     Reactions: [],
     LegendaryActions: getPowers(statBlockElement, "Legendary Actions"),
-    ImageURL: doc.find(".details-aside .image a").attr("href"),
+    ImageURL: doc.find(".details-aside .image a").attr("href") || "",
     Description: doc
       .find(".mon-details__description-block-content")
       .text()
