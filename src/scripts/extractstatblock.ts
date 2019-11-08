@@ -179,10 +179,10 @@ function getPowers(element: Cash, type: string): NameAndContent[] {
     .get()
     .map(el => {
       const contentNode = cash(el).clone();
-      contentNode.children("strong").remove();
+      contentNode.children("em, strong").remove();
       return {
         Name: cash(el)
-          .find("strong")
+          .find("em, strong")
           .text()
           .trim()
           .replace(/\.$/, ""),
