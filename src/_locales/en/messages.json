@@ -1,6 +1,6 @@
 {
   "appName": {
-    "message": "Send to Improved Initiative",
+    "message": "Improved Initiative StatBlock Importer for D&D Beyond",
     "description": "The name of the extension."
   },
   "appDescription": {
@@ -8,7 +8,7 @@
     "description": "The description of the extension."
   },
   "btnTooltip": {
-    "message": "Send to Improved Initiative",
+    "message": "Import to Improved Initiative",
     "description": "Tooltip for the button."
   }
 }

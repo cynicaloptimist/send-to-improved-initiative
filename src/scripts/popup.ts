@@ -30,7 +30,8 @@ var renderBookmark = (data) => {
     displayContainer.innerHTML = tmpl;  
     importedStatBlock = data;
   } else {
-    renderMessage("Could not scrape a StatBlock from this page. Please ensure that you are on a StatBlock detail page.")
+    renderMessage("Could not scrape a StatBlock from this page. Please ensure that you are on a StatBlock detail page. " +
+                  `<a href="https://www.dndbeyond.com/monsters">D&D Beyond Monsters</a>`)
   }
 }
 
