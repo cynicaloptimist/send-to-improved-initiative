@@ -25,7 +25,7 @@ var verifyOrWarnPortrait = (data: StatBlock) => {
   if (data.ImageURL.length > 0) {
     return "";
   }
-  return `<div class="warning">No portrait was found. Visit a Monster Details page to get the whole picture.</div>`;
+  return `<span class="warning">No portrait was found. Visit a Monster Details page to get the whole picture.</span>`;
 }
 
 var renderMessage = (message) => {
