@@ -1,5 +1,6 @@
 import ext from "./utils/ext";
 import { StatBlock } from "./StatBlock";
+import { ScrapeStatBlockAction } from "./actions";
 
 const tabs: typeof chrome.tabs = ext.tabs;
 const runtime: typeof chrome.runtime = ext.runtime;
@@ -47,7 +48,7 @@ var handleScrapedStatBlock = (data: StatBlock) => {
 
 tabs.query({active: true, currentWindow: true}, function(tabs) {
   var activeTab = tabs[0];
-  chrome.tabs.sendMessage(activeTab.id, { action: 'process-page' }, handleScrapedStatBlock);
+  chrome.tabs.sendMessage(activeTab.id, { action: ScrapeStatBlockAction }, handleScrapedStatBlock);
 });
 
 popup.addEventListener("click", function (e) {

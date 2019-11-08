@@ -1,8 +1,9 @@
 import ext from "./utils/ext";
 import { extractStatBlock } from "./extractstatblock";
+import { ScrapeStatBlockAction } from "./actions";
 
 function onRequest(request, sender, sendResponse) {
-  if (request.action === 'process-page') {
+  if (request.action == ScrapeStatBlockAction) {
     sendResponse(extractStatBlock())
   }
 }
