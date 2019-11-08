@@ -9,6 +9,11 @@ let importedStatBlock = {};
 
 var popup = document.getElementById("app");
 
+tabs.query({active: true, currentWindow: true}, function(tabs) {
+  var activeTab = tabs[0];
+  chrome.tabs.sendMessage(activeTab.id, { action: ScrapeStatBlockAction }, handleScrapedStatBlock);
+});
+
 var template = (data: StatBlock) => {
   return (`
   <div class="statblock-preview">
@@ -45,11 +50,6 @@ var handleScrapedStatBlock = (data: StatBlock) => {
                   `<a href="https://www.dndbeyond.com/monsters">D&D Beyond Monsters</a>`)
   }
 }
-
-tabs.query({active: true, currentWindow: true}, function(tabs) {
-  var activeTab = tabs[0];
-  chrome.tabs.sendMessage(activeTab.id, { action: ScrapeStatBlockAction }, handleScrapedStatBlock);
-});
 
 popup.addEventListener("click", function (e) {
   const target: Element = e.target as Element;
