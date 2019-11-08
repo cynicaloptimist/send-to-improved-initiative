@@ -91,6 +91,11 @@ footer {
   font-size: 1em;
 }
 
+.warning {
+  border: 1px solid $brand-primary;
+  padding: 0.5rem;
+}
+
 .statblock-preview__json {
   white-space: pre-wrap;
   max-height: 350px;
