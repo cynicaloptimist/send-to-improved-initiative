@@ -15,7 +15,7 @@
   },
   "permissions": [
     "storage",
-    "https://www.dndbeyond.com/*/*"
+    "https://www.dndbeyond.com/*"
   ],
   "options_ui": {
     "page": "options.html"
@@ -23,7 +23,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://www.dndbeyond.com/*/*"
+        "https://www.dndbeyond.com/*"
       ],
       "js": [
         "scripts/contentscript.js"
