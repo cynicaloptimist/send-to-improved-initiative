@@ -11,9 +11,9 @@ const popup = document.getElementById("app");
 
 render(<Importer />, popup);
 
-tabs.query({ active: true, currentWindow: true }, function(tabs) {
-  var activeTab = tabs[0];
-  chrome.tabs.sendMessage(
+tabs.query({ active: true, currentWindow: true }, function(browserTabs) {
+  var activeTab = browserTabs[0];
+  tabs.sendMessage(
     activeTab.id,
     { action: ScrapeStatBlockAction },
     handleScrapedStatBlock
@@ -94,8 +94,3 @@ function importStatBlock(statBlock: StatBlock) {
 function openOptions() {
   tabs.create({ url: ext.extension.getURL("options.html") });
 }
-
-var optionsLink = document.querySelector(".js-options");
-optionsLink.addEventListener("click", function(e) {
-  e.preventDefault();
-});
