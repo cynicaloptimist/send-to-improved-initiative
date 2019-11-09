@@ -55,7 +55,13 @@ function Importer(props: { importedStatBlock?: StatBlock }) {
       <footer>
         <p>
           <small>
-            <a href="#" class="js-options" onClick={openOptions}>
+            <a
+              href="#"
+              class="js-options"
+              onClick={() =>
+                tabs.create({ url: ext.extension.getURL("options.html") })
+              }
+            >
               Options
             </a>
           </small>
@@ -89,8 +95,4 @@ function importStatBlock(statBlock: StatBlock) {
         }
       }
     );
-}
-
-function openOptions() {
-  tabs.create({ url: ext.extension.getURL("options.html") });
 }
