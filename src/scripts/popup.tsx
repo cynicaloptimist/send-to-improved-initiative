@@ -2,6 +2,7 @@ import ext from "./utils/ext";
 import { StatBlock } from "./StatBlock";
 import { ScrapeStatBlockAction } from "./actions";
 import { h, render } from "preact";
+import { HelpText } from "./HelpText";
 
 const tabs: typeof chrome.tabs = ext.tabs;
 const runtime: typeof chrome.runtime = ext.runtime;
@@ -25,20 +26,6 @@ function handleScrapedStatBlock(data: StatBlock) {
   } else {
     render(<HelpText />, popup);
   }
-}
-
-function HelpText() {
-  return (
-    <div class="popup-content">
-      <p class="message">
-        Could not scrape a StatBlock from this page. Please ensure that you are
-        on a StatBlock <strong>Details</strong> page.
-      </p>
-      <a class="" href="https://www.dndbeyond.com/monsters">
-        D&amp;D Beyond Monsters
-      </a>
-    </div>
-  );
 }
 
 function Importer(props: { importedStatBlock?: StatBlock }) {
