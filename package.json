@@ -1,6 +1,6 @@
 {
   "name": "send-to-improved-initiative",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A cross browser extension that imports D&D Beyond StatBlocks into Improved Initiative",
   "repository": {
     "url": "https://github.com/cynicaloptimist/send-to-improved-initiative"
