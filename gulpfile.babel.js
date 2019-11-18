@@ -177,7 +177,7 @@ function buildJS(target, done) {
       .pipe(buffer())
       .pipe(gulpif(!production, $.sourcemaps.init({ loadMaps: true })))
       .pipe(gulpif(!production, $.sourcemaps.write("./")))
-      .pipe(
+      /*.pipe(
         gulpif(
           production,
           uglify({
@@ -187,7 +187,7 @@ function buildJS(target, done) {
             }
           })
         )
-      )
+      )*/
       .pipe(
         rename({
           extname: ".js"
