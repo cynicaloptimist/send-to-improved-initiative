@@ -124,7 +124,7 @@ function pipe(src, ...transforms) {
   return transforms.reduce((stream, transform) => {
     const isDest = typeof transform === "string";
     return stream.pipe(isDest ? gulp.dest(transform) : transform);
-  }, gulp.src(src));
+  }, gulp.src(src, { allowEmpty: true }));
 }
 
 function mergeAll(dest) {
