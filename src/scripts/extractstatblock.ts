@@ -43,7 +43,7 @@ export const extractStatBlock = () => {
       "Condition Immunities"
     ),
     Saves: getCommaSeparatedModifiers(statBlockElement, "Saving Throws"),
-    Skills: getCommaSeparatedModifiers(statBlockElement, "Saving Throws"),
+    Skills: getCommaSeparatedModifiers(statBlockElement, "Skills"),
     Senses: getCommaSeparatedStrings(statBlockElement, "Senses"),
     Languages: getCommaSeparatedStrings(statBlockElement, "Languages"),
     Challenge: getChallenge(statBlockElement),
