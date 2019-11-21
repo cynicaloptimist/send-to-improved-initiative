@@ -55,7 +55,8 @@ export const extractStatBlock = () => {
     Description: doc
       .find(".mon-details__description-block-content")
       .text()
-      .trim(),
+      .trim()
+      .replace(/([^\n])\n([^\n])/gm, "$1\n\n$2"), //replace single line breaks with double
     Player: ""
   };
 
