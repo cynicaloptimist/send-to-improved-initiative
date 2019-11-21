@@ -167,7 +167,7 @@ function getChallenge(element: Cash) {
   if (challengeText.length == 0) {
     return "0";
   }
-  const matches = challengeText[0].match(/\d{1,2}/);
+  const matches = challengeText[0].match(/(\d|\/){1,4}/);
   return matches[0] || "0";
 }
 
