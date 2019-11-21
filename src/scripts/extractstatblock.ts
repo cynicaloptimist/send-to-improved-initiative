@@ -22,30 +22,30 @@ export const extractStatBlock = () => {
     HP: getHitPoints(statBlockElement),
     AC: getArmorClass(statBlockElement),
     Abilities: getAbilities(statBlockElement),
-    Speed: getCommaSeparatedStrings(statBlockElement, "Speed"),
+    Speed: getDelimitedStrings(statBlockElement, "Speed"),
     // InitiativeModifier?: number,
     // InitiativeSpecialRoll?: "advantage" | "disadvantage" | "take-ten",
     // InitiativeAdvantage?: boolean,
-    DamageVulnerabilities: getCommaSeparatedStrings(
+    DamageVulnerabilities: getDelimitedStrings(
       statBlockElement,
       "Damage Vulnerabilities"
     ),
-    DamageResistances: getCommaSeparatedStrings(
+    DamageResistances: getDelimitedStrings(
       statBlockElement,
       "Damage Resistances"
     ),
-    DamageImmunities: getCommaSeparatedStrings(
+    DamageImmunities: getDelimitedStrings(
       statBlockElement,
       "Damage Immunities"
     ),
-    ConditionImmunities: getCommaSeparatedStrings(
+    ConditionImmunities: getDelimitedStrings(
       statBlockElement,
       "Condition Immunities"
     ),
-    Saves: getCommaSeparatedModifiers(statBlockElement, "Saving Throws"),
-    Skills: getCommaSeparatedModifiers(statBlockElement, "Skills"),
-    Senses: getCommaSeparatedStrings(statBlockElement, "Senses"),
-    Languages: getCommaSeparatedStrings(statBlockElement, "Languages"),
+    Saves: getDelimitedModifiers(statBlockElement, "Saving Throws"),
+    Skills: getDelimitedModifiers(statBlockElement, "Skills"),
+    Senses: getDelimitedStrings(statBlockElement, "Senses"),
+    Languages: getDelimitedStrings(statBlockElement, "Languages"),
     Challenge: getChallenge(statBlockElement),
     Traits: getPowers(statBlockElement, "Traits"),
     Actions: getPowers(statBlockElement, "Actions"),
@@ -131,25 +131,31 @@ function getAbility(element: Cash, ability: string) {
   return score;
 }
 
-function getCommaSeparatedStrings(element: Cash, tidbitName: string) {
+function getDelimitedStrings(element: Cash, tidbitName: string) {
   const label = element
     .find(".mon-stat-block__attribute-label, .mon-stat-block__tidbit-label")
     .filter((_, e: Element) => e.innerHTML.trim() == tidbitName)
     .first();
 
-  const commaDelimitedString = label
+  const delimitedString = label
     .parent()
     .find(".mon-stat-block__attribute-data-value, .mon-stat-block__tidbit-data")
     .text()
     .trim();
-  if (commaDelimitedString.length > 0) {
-    return commaDelimitedString.split(/, ?/).map(s => s.trim());
+  
+  if (delimitedString.length > 0) {
+    const commaPattern = /, ?/;
+    const semicolonPattern = /; ?/;
+    const splitPattern = delimitedString.includes(";")
+      ? semicolonPattern
+      : commaPattern;
+    return delimitedString.split(splitPattern).map(s => s.trim());
   }
   return [];
 }
 
-function getCommaSeparatedModifiers(element: Cash, tidbitName: string) {
-  const entries = getCommaSeparatedStrings(element, tidbitName);
+function getDelimitedModifiers(element: Cash, tidbitName: string) {
+  const entries = getDelimitedStrings(element, tidbitName);
   return entries.map(e => {
     // Extract the last piece of the name/modifier, and parse an int from only that, ensuring the name can contain any manner of spacing.
     const nameAndModifier = e.split(" ");
@@ -164,7 +170,7 @@ function getCommaSeparatedModifiers(element: Cash, tidbitName: string) {
 }
 
 function getChallenge(element: Cash) {
-  const challengeText = getCommaSeparatedStrings(element, "Challenge");
+  const challengeText = getDelimitedStrings(element, "Challenge");
   if (challengeText.length == 0) {
     return "0";
   }
