@@ -1,5 +1,5 @@
 import cash, { Cash } from "cash-dom";
-import { StatBlock, AbilityScores, NameAndContent } from "./StatBlock";
+import { StatBlock, AbilityScores, NameAndContent } from "./statblock";
 
 export const extractStatBlock = () => {
   const doc = cash(document);

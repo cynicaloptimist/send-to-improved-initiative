@@ -1,5 +1,5 @@
 import ext from "./utils/ext";
-import { StatBlock } from "./StatBlock";
+import { StatBlock } from "./statblock";
 import { ScrapeStatBlockAction } from "./actions";
 import { h, render } from "preact";
 import { HelpText } from "./HelpText";
