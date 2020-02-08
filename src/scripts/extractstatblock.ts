@@ -12,12 +12,10 @@ export const extractStatBlock = (options: AllOptions) => {
 
   const statBlockElement = statBlockElements.first();
   const statBlock: StatBlock = {
-    Source: doc
-      .find(".monster-source")
-      .text()
-      .replace(/\s+/g, " ")
-      .replace(" ,", ",")
-      .trim(),
+    Source: getSource(
+      doc.find(".monster-source"),
+      options[Options.IncludePageNumberWithSource] == "on"
+    ),
     Name: getName(statBlockElement),
     Type: getType(statBlockElement),
     HP: getHitPoints(statBlockElement),
@@ -63,6 +61,19 @@ export const extractStatBlock = (options: AllOptions) => {
 
   return statBlock;
 };
+
+function getSource(element: Cash, includePageNumber: boolean) {
+  const source = element
+    .text()
+    .replace(/\s+/g, " ")
+    .replace(" ,", ",")
+    .trim();
+  if (includePageNumber) {
+    return source;
+  } else {
+    return source.split(",")[0];
+  }
+}
 
 function getName(element: Cash) {
   return element
@@ -143,7 +154,7 @@ function getDelimitedStrings(element: Cash, tidbitName: string) {
     .find(".mon-stat-block__attribute-data-value, .mon-stat-block__tidbit-data")
     .text()
     .trim();
-  
+
   if (delimitedString.length > 0) {
     const commaPattern = /, ?/;
     const semicolonPattern = /; ?/;
