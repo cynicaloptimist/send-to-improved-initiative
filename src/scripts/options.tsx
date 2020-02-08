@@ -2,18 +2,20 @@ import storage from "./utils/storage";
 import { h, render, Fragment } from "preact";
 
 enum Store {
-  TargetUrl = "target-url"
+  TargetUrl = "target-url",
+  IncludePageNumberWithSource = "include-page-number-with-source"
 }
 
 type AllOptions = Record<Store, string>;
 
 const options = document.getElementById("options");
 
-storage.get(Store.TargetUrl, (values: AllOptions) => {
+storage.get(Object.values(Store), (values: AllOptions) => {
   render(<Options currentOptions={values} />, options);
 });
 
 function Options(props: { currentOptions: AllOptions }) {
+  console.log(JSON.stringify(props.currentOptions));
   return (
     <Fragment>
       <div class="grid">
@@ -27,13 +29,26 @@ function Options(props: { currentOptions: AllOptions }) {
         <div class="grid">
           <div class="unit whole center-on-mobiles">
             <div class="option">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={
+                    props.currentOptions[Store.IncludePageNumberWithSource] ==
+                    "on"
+                  }
+                  onChange={UpdateCheckbox(Store.IncludePageNumberWithSource)}
+                />{" "}
+                Include page number in source
+              </label>
+            </div>
+            <div class="option">
               <h5>Target URL</h5>
               <input
                 class="js-text target-url"
                 type="text"
                 name="target-url"
                 value={props.currentOptions[Store.TargetUrl]}
-                onChange={Update(Store.TargetUrl)}
+                onChange={UpdateText(Store.TargetUrl)}
               />
             </div>
           </div>
@@ -50,12 +65,22 @@ function Options(props: { currentOptions: AllOptions }) {
   );
 }
 
-function Update(optionName: Store) {
+function UpdateCheckbox(optionName: Store) {
   return (e: Event) => {
     const input = e.target as HTMLInputElement;
-    const newTargetUrl = input.value;
+    const newValue = input.checked ? "on" : "off";
     storage.set({
-      [optionName]: newTargetUrl
+      [optionName]: newValue
+    });
+  };
+}
+
+function UpdateText(optionName: Store) {
+  return (e: Event) => {
+    const input = e.target as HTMLInputElement;
+    const newValue = input.value;
+    storage.set({
+      [optionName]: newValue
     });
   };
 }
