@@ -1,6 +1,6 @@
 import ext from "./utils/ext";
 import storage from "./utils/storage";
-import { Options } from "./options";
+import { Options } from "./OptionsValues";
 const codec = require("json-url")("lzma");
 
 const runtime: typeof chrome.runtime = ext.runtime;

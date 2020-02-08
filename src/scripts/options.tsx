@@ -1,12 +1,6 @@
 import storage from "./utils/storage";
 import { h, render, Fragment } from "preact";
-
-export enum Options {
-  TargetUrl = "target-url",
-  IncludePageNumberWithSource = "include-page-number-with-source"
-}
-
-type AllOptions = Record<Options, string>;
+import { Options, AllOptions } from "./OptionsValues";
 
 const options = document.getElementById("options");
 
