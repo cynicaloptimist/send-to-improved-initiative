@@ -12,6 +12,11 @@ storage.get(Object.values(Options), values => {
       [Options.TargetUrl]: "https://www.improved-initiative.com/e/"
     });
   }
+  if (values[Options.IncludePageNumberWithSource] == null) {
+    storage.set({
+      [Options.IncludePageNumberWithSource]: "on"
+    });
+  }
 });
 
 runtime.onMessage.addListener(function(request, sender, sendResponse) {
