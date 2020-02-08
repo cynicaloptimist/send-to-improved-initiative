@@ -1,20 +1,20 @@
 import storage from "./utils/storage";
 import { h, render, Fragment } from "preact";
 
-enum Store {
+export enum Options {
   TargetUrl = "target-url",
   IncludePageNumberWithSource = "include-page-number-with-source"
 }
 
-type AllOptions = Record<Store, string>;
+type AllOptions = Record<Options, string>;
 
 const options = document.getElementById("options");
 
-storage.get(Object.values(Store), (values: AllOptions) => {
-  render(<Options currentOptions={values} />, options);
+storage.get(Object.values(Options), (values: AllOptions) => {
+  render(<OptionsEditor currentOptions={values} />, options);
 });
 
-function Options(props: { currentOptions: AllOptions }) {
+function OptionsEditor(props: { currentOptions: AllOptions }) {
   console.log(JSON.stringify(props.currentOptions));
   return (
     <Fragment>
@@ -33,10 +33,10 @@ function Options(props: { currentOptions: AllOptions }) {
                 <input
                   type="checkbox"
                   checked={
-                    props.currentOptions[Store.IncludePageNumberWithSource] ==
+                    props.currentOptions[Options.IncludePageNumberWithSource] ==
                     "on"
                   }
-                  onChange={UpdateCheckbox(Store.IncludePageNumberWithSource)}
+                  onChange={UpdateCheckbox(Options.IncludePageNumberWithSource)}
                 />{" "}
                 Include page number in source
               </label>
@@ -47,8 +47,8 @@ function Options(props: { currentOptions: AllOptions }) {
                 class="js-text target-url"
                 type="text"
                 name="target-url"
-                value={props.currentOptions[Store.TargetUrl]}
-                onChange={UpdateText(Store.TargetUrl)}
+                value={props.currentOptions[Options.TargetUrl]}
+                onChange={UpdateText(Options.TargetUrl)}
               />
             </div>
           </div>
@@ -65,7 +65,7 @@ function Options(props: { currentOptions: AllOptions }) {
   );
 }
 
-function UpdateCheckbox(optionName: Store) {
+function UpdateCheckbox(optionName: Options) {
   return (e: Event) => {
     const input = e.target as HTMLInputElement;
     const newValue = input.checked ? "on" : "off";
@@ -75,7 +75,7 @@ function UpdateCheckbox(optionName: Store) {
   };
 }
 
-function UpdateText(optionName: Store) {
+function UpdateText(optionName: Options) {
   return (e: Event) => {
     const input = e.target as HTMLInputElement;
     const newValue = input.value;
