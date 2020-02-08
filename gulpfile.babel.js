@@ -156,7 +156,7 @@ function buildJS(target, done) {
   const files = [
     "background.ts",
     "contentscript.ts",
-    "options.ts",
+    "options.tsx",
     "popup.tsx",
     "livereload.ts"
   ];
