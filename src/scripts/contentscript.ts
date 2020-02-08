@@ -1,11 +1,20 @@
 import ext from "./utils/ext";
 import { extractStatBlock } from "./extractstatblock";
 import { ScrapeStatBlockAction } from "./actions";
+import storage from "./utils/storage";
+import { Options, AllOptions } from "./OptionsValues";
 
-function onRequest(request: any, sender, sendResponse: (response: any) => void) {
+function onRequest(
+  request: any,
+  sender,
+  sendResponse: (response: any) => void
+) {
   if (request.action == ScrapeStatBlockAction) {
-    sendResponse(extractStatBlock())
+    storage.get(Object.values(Options), (options: AllOptions) => {
+      sendResponse(extractStatBlock(options));
+    });
   }
+  return true;
 }
 
 const runtime: typeof chrome.runtime = ext.runtime;

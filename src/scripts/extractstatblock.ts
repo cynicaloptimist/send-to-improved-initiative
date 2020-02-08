@@ -1,7 +1,8 @@
 import cash, { Cash } from "cash-dom";
 import { StatBlock, AbilityScores, NameAndContent } from "./statblock";
+import { AllOptions, Options } from "./OptionsValues";
 
-export const extractStatBlock = () => {
+export const extractStatBlock = (options: AllOptions) => {
   const doc = cash(document);
   const statBlockElements = doc.find(".mon-stat-block");
 
