@@ -1,21 +1,18 @@
 import ext from "./utils/ext";
 import storage from "./utils/storage";
-import { Options } from "./options";
+import { Options, OptionDefaults } from "./options";
 const codec = require("json-url")("lzma");
 
 const runtime: typeof chrome.runtime = ext.runtime;
 const tabs: typeof chrome.tabs = ext.tabs;
 
 storage.get(Object.values(Options), values => {
-  if (values[Options.TargetUrl] == null) {
-    storage.set({
-      [Options.TargetUrl]: "https://www.improved-initiative.com/e/"
-    });
-  }
-  if (values[Options.IncludePageNumberWithSource] == null) {
-    storage.set({
-      [Options.IncludePageNumberWithSource]: "on"
-    });
+  for (const option in OptionDefaults) {
+    if (values[option] == null) {
+      storage.set({
+        [option]: OptionDefaults[option]
+      });
+    }
   }
 });
 
