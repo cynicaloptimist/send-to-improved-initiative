@@ -16,7 +16,7 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
       .text()
       .trim(),
     HP: getHitPoints(characterSheetElement),
-    // AC: getArmorClass(characterSheetElement),
+    AC: getArmorClass(characterSheetElement),
     // Abilities: getAbilities(characterSheetElement),
     // Speed: getDelimitedStrings(characterSheetElement, "Speed"),
     // // InitiativeModifier?: number,
@@ -47,7 +47,7 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
     // Actions: getPowers(characterSheetElement, "Actions"),
     // Reactions: [],
     // LegendaryActions: getPowers(characterSheetElement, "Legendary Actions"),
-    ImageURL: doc.find(".details-aside .image a").attr("href") || "",
+    ImageURL: getImageUrl(characterSheetElement),
     // Description: doc
     //   .find(".mon-details__description-block-content")
     //   .text()
@@ -76,4 +76,25 @@ function getHitPoints(element: Cash) {
     Value: parseInt(maxHP),
     Notes: ""
   };
+}
+
+function getArmorClass(element: Cash) {
+  return {
+    Value: parseInt(
+      element
+        .find(".ct-armor-class-box__value")
+        .text()
+        .trim()
+    ),
+    Notes: ""
+  };
+}
+
+function getImageUrl(element: Cash) {
+  const backgroundImageAttribute =
+    element.find(".ct-character-tidbits__avatar").css("background-image") || "";
+  if (!backgroundImageAttribute.length) {
+    return "";
+  }
+  return backgroundImageAttribute.split('"')[1];
 }
