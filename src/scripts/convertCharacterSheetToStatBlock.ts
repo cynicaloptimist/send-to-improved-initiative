@@ -18,24 +18,13 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
     HP: getHitPoints(characterSheetElement),
     AC: getArmorClass(characterSheetElement),
     Abilities: getAbilities(characterSheetElement),
-    Speed: [
-      characterSheetElement.find(".ct-speed-box__box-value").text()
-    ],
+    Speed: [characterSheetElement.find(".ct-speed-box__box-value").text()],
     // InitiativeModifier?: number,
     // InitiativeSpecialRoll?: "advantage" | "disadvantage" | "take-ten",
     // InitiativeAdvantage?: boolean,
-    // DamageVulnerabilities: getDelimitedStrings(
-    //   characterSheetElement,
-    //   "Damage Vulnerabilities"
-    // ),
-    // DamageResistances: getDelimitedStrings(
-    //   characterSheetElement,
-    //   "Damage Resistances"
-    // ),
-    // DamageImmunities: getDelimitedStrings(
-    //   characterSheetElement,
-    //   "Damage Immunities"
-    // ),
+    DamageVulnerabilities: getDefenses(characterSheetElement, "Vulnerability"),
+    DamageResistances: getDefenses(characterSheetElement, "Resistance"),
+    DamageImmunities: getDefenses(characterSheetElement, "Immunity"),
     // ConditionImmunities: getDelimitedStrings(
     //   characterSheetElement,
     //   "Condition Immunities"
@@ -126,4 +115,16 @@ function getAbility(element: Cash, ability: string) {
     score = parseInt(scoreText);
   } catch (e) {}
   return score;
+}
+
+function getDefenses(element: Cash, defenseType: string) {
+  return element
+    .find(".ct-defenses-summary__group")
+    .find(`[data-original-title=${defenseType}]`)
+    .get()
+    .map<string>(el => {
+      return cash(el)
+        .parents(".ct-defenses-summary__group")
+        .text();
+    });
 }
