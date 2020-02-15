@@ -1,5 +1,5 @@
 import cash, { Cash } from "cash-dom";
-import { StatBlock } from "./statblock";
+import { StatBlock, AbilityScores } from "./statblock";
 import { AllOptions } from "./options";
 
 export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
@@ -17,7 +17,7 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
       .trim(),
     HP: getHitPoints(characterSheetElement),
     AC: getArmorClass(characterSheetElement),
-    // Abilities: getAbilities(characterSheetElement),
+    Abilities: getAbilities(characterSheetElement),
     // Speed: getDelimitedStrings(characterSheetElement, "Speed"),
     // // InitiativeModifier?: number,
     // // InitiativeSpecialRoll?: "advantage" | "disadvantage" | "take-ten",
@@ -97,4 +97,31 @@ function getImageUrl(element: Cash) {
     return "";
   }
   return backgroundImageAttribute.split('"')[1];
+}
+
+function getAbilities(element: Cash): AbilityScores {
+  return {
+    Str: getAbility(element, "str"),
+    Dex: getAbility(element, "dex"),
+    Con: getAbility(element, "con"),
+    Int: getAbility(element, "int"),
+    Wis: getAbility(element, "wis"),
+    Cha: getAbility(element, "cha")
+  };
+}
+
+function getAbility(element: Cash, ability: string) {
+  let score = 10;
+  const scoreLabel = element
+    .find(".ct-ability-summary__abbr")
+    .filter((_, element: Element) => element.textContent == ability);
+
+  const scoreText = scoreLabel
+    .parents(".ct-ability-summary")
+    .find(".ct-ability-summary__secondary")
+    .text();
+  try {
+    score = parseInt(scoreText);
+  } catch (e) {}
+  return score;
 }
