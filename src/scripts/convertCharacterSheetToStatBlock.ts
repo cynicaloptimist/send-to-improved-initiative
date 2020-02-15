@@ -18,7 +18,9 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
     HP: getHitPoints(characterSheetElement),
     AC: getArmorClass(characterSheetElement),
     Abilities: getAbilities(characterSheetElement),
-    // Speed: getDelimitedStrings(characterSheetElement, "Speed"),
+    Speed: [
+      characterSheetElement.find(".ct-speed-box__box-value").text()
+    ],
     // // InitiativeModifier?: number,
     // // InitiativeSpecialRoll?: "advantage" | "disadvantage" | "take-ten",
     // // InitiativeAdvantage?: boolean,
