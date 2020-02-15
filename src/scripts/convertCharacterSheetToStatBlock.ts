@@ -21,9 +21,9 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
     Speed: [
       characterSheetElement.find(".ct-speed-box__box-value").text()
     ],
-    // // InitiativeModifier?: number,
-    // // InitiativeSpecialRoll?: "advantage" | "disadvantage" | "take-ten",
-    // // InitiativeAdvantage?: boolean,
+    // InitiativeModifier?: number,
+    // InitiativeSpecialRoll?: "advantage" | "disadvantage" | "take-ten",
+    // InitiativeAdvantage?: boolean,
     // DamageVulnerabilities: getDelimitedStrings(
     //   characterSheetElement,
     //   "Damage Vulnerabilities"
