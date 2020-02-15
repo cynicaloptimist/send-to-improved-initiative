@@ -119,12 +119,9 @@ function getAbility(element: Cash, ability: string) {
 
 function getDefenses(element: Cash, defenseType: string) {
   return element
-    .find(".ct-defenses-summary__group")
     .find(`[data-original-title=${defenseType}]`)
+    .parents(".ct-defenses-summary__group")
+    .find(".ct-defenses-summary__defense")
     .get()
-    .map<string>(el => {
-      return cash(el)
-        .parents(".ct-defenses-summary__group")
-        .text();
-    });
+    .map(el => el.innerText);
 }
