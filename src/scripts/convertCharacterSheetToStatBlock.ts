@@ -33,7 +33,7 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
       "Immunity"
     ).filter(immunity => IsConditionImmunity(immunity)),
     Saves: getSaves(characterSheetElement),
-    // Skills: getDelimitedModifiers(characterSheetElement, "Skills"),
+    Skills: getSkills(characterSheetElement),
     // Senses: getDelimitedStrings(characterSheetElement, "Senses"),
     // Languages: getDelimitedStrings(characterSheetElement, "Languages"),
     // Challenge: getChallenge(characterSheetElement),
@@ -142,6 +142,25 @@ function getSaves(element: Cash) {
         Modifier: parseInt(
           cash(el)
             .find(".ct-saving-throws-summary__ability-modifier")
+            .text()
+        )
+      };
+    });
+}
+
+function getSkills(element: Cash) {
+  return element
+    .find(`[data-original-title="Proficiency"]`)
+    .parents(".ct-skills__item")
+    .get()
+    .map(el => {
+      return {
+        Name: cash(el)
+          .find(".ct-skills__col--skill")
+          .text(),
+        Modifier: parseInt(
+          cash(el)
+            .find(".ct-signed-number")
             .text()
         )
       };
