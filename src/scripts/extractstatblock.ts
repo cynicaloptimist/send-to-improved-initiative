@@ -51,11 +51,14 @@ export const extractStatBlock = (options: AllOptions) => {
     Reactions: [],
     LegendaryActions: getPowers(statBlockElement, "Legendary Actions"),
     ImageURL: doc.find(".details-aside .image a").attr("href") || "",
-    Description: doc
-      .find(".mon-details__description-block-content")
-      .text()
-      .trim()
-      .replace(/([^\n])\n([^\n])/gm, "$1\n\n$2"), //replace single line breaks with double
+    Description:
+      options[Options.IncludeDescription] == "on"
+        ? doc
+            .find(".mon-details__description-block-content")
+            .text()
+            .trim()
+            .replace(/([^\n])\n([^\n])/gm, "$1\n\n$2") //replace single line breaks with double
+        : "",
     Player: ""
   };
 

@@ -27,6 +27,18 @@ function OptionsEditor(props: { currentOptions: AllOptions }) {
                 <input
                   type="checkbox"
                   checked={
+                    props.currentOptions[Options.IncludeDescription] == "on"
+                  }
+                  onChange={UpdateCheckbox(Options.IncludeDescription)}
+                />{" "}
+                Include description
+              </label>
+            </div>
+            <div class="option">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={
                     props.currentOptions[Options.IncludePageNumberWithSource] ==
                     "on"
                   }
