@@ -186,10 +186,14 @@ function getSkills(element: Cash) {
 }
 
 function getSenses(element: Cash) {
-  return element
-    .find(".ct-senses__summary")
+  const sensesString = element.find(".ct-senses__summary")
     .text()
-    .split(/,\s*/);
+    .replace("Additional Sense Types", "");
+  if (sensesString.length == 0) {
+    return [];
+  }
+
+  return sensesString.split(/,\s*/);
 }
 
 function getLanguages(element: Cash) {
