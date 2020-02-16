@@ -36,7 +36,10 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
     Skills: getSkills(characterSheetElement),
     Senses: getSenses(characterSheetElement),
     Languages: getLanguages(characterSheetElement),
-    // Challenge: getChallenge(characterSheetElement),
+    Challenge: characterSheetElement
+      .find(".ct-character-tidbits__classes")
+      .text()
+      .trim(),
     // Traits: getPowers(characterSheetElement, "Traits"),
     // Actions: getPowers(characterSheetElement, "Actions"),
     // Reactions: [],
