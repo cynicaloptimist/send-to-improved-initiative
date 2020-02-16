@@ -2,6 +2,26 @@ import cash, { Cash } from "cash-dom";
 import { StatBlock, AbilityScores } from "./statblock";
 import { AllOptions } from "./options";
 
+function isConditionImmunity(immunityType: string) {
+  return [
+    "Blinded",
+    "Charmed",
+    "Deafened",
+    "Frightened",
+    "Grappled",
+    "Incapacitated",
+    "Invisible",
+    "Paralyzed",
+    "Petrified",
+    "Poisoned",
+    "Prone",
+    "Restrained",
+    "Stunned",
+    "Unconscious",
+    "Exhaustion"
+  ].some(condition => immunityType.includes(condition));
+}
+
 export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
   const doc = cash(document);
   const characterSheetElement = doc.find(".ct-character-sheet");
@@ -24,11 +44,13 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
     // InitiativeAdvantage?: boolean,
     DamageVulnerabilities: getDefenses(characterSheetElement, "Vulnerability"),
     DamageResistances: getDefenses(characterSheetElement, "Resistance"),
-    DamageImmunities: getDefenses(characterSheetElement, "Immunity"),
-    // ConditionImmunities: getDelimitedStrings(
-    //   characterSheetElement,
-    //   "Condition Immunities"
-    // ),
+    DamageImmunities: getDefenses(characterSheetElement, "Immunity").filter(
+      immunity => !isConditionImmunity(immunity)
+    ),
+    ConditionImmunities: getDefenses(
+      characterSheetElement,
+      "Immunity"
+    ).filter(immunity => isConditionImmunity(immunity)),
     // Saves: getDelimitedModifiers(characterSheetElement, "Saving Throws"),
     // Skills: getDelimitedModifiers(characterSheetElement, "Skills"),
     // Senses: getDelimitedStrings(characterSheetElement, "Senses"),
