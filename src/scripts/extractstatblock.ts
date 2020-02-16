@@ -156,6 +156,7 @@ function getDelimitedStrings(element: Cash, tidbitName: string) {
     .parent()
     .find(".mon-stat-block__attribute-data-value, .mon-stat-block__tidbit-data")
     .text()
+    .replace("--", "")
     .trim();
 
   if (delimitedString.length > 0) {
