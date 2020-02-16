@@ -40,16 +40,12 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
       .find(".ct-character-tidbits__classes")
       .text()
       .trim(),
-    // Traits: getPowers(characterSheetElement, "Traits"),
-    // Actions: getPowers(characterSheetElement, "Actions"),
-    // Reactions: [],
-    // LegendaryActions: getPowers(characterSheetElement, "Legendary Actions"),
+    Traits: [],
+    Actions: [],
+    Reactions: [],
+    LegendaryActions: [],
     ImageURL: getImageUrl(characterSheetElement),
-    // Description: doc
-    //   .find(".mon-details__description-block-content")
-    //   .text()
-    //   .trim()
-    //   .replace(/([^\n])\n([^\n])/gm, "$1\n\n$2"), //replace single line breaks with double
+    Description: "",
     Player: "player"
   };
   return statBlock;
