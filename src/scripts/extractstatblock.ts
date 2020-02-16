@@ -48,7 +48,7 @@ export const extractStatBlock = (options: AllOptions) => {
     Challenge: getChallenge(statBlockElement),
     Traits: getPowers(statBlockElement, "Traits"),
     Actions: getPowers(statBlockElement, "Actions"),
-    Reactions: [],
+    Reactions: getPowers(statBlockElement, "Reactions"),
     LegendaryActions: getPowers(statBlockElement, "Legendary Actions"),
     ImageURL: doc.find(".details-aside .image a").attr("href") || "",
     Description:
