@@ -34,7 +34,7 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
     ).filter(immunity => IsConditionImmunity(immunity)),
     Saves: getSaves(characterSheetElement),
     Skills: getSkills(characterSheetElement),
-    // Senses: getDelimitedStrings(characterSheetElement, "Senses"),
+    Senses: getSenses(characterSheetElement),
     // Languages: getDelimitedStrings(characterSheetElement, "Languages"),
     // Challenge: getChallenge(characterSheetElement),
     // Traits: getPowers(characterSheetElement, "Traits"),
@@ -165,4 +165,8 @@ function getSkills(element: Cash) {
         )
       };
     });
+}
+
+function getSenses(element: Cash) {
+  return element.find(".ct-senses__summary").text().split(/,\s*/);
 }
