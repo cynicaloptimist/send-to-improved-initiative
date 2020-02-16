@@ -35,7 +35,7 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
     Saves: getSaves(characterSheetElement),
     Skills: getSkills(characterSheetElement),
     Senses: getSenses(characterSheetElement),
-    // Languages: getDelimitedStrings(characterSheetElement, "Languages"),
+    Languages: getLanguages(characterSheetElement),
     // Challenge: getChallenge(characterSheetElement),
     // Traits: getPowers(characterSheetElement, "Traits"),
     // Actions: getPowers(characterSheetElement, "Actions"),
@@ -168,5 +168,19 @@ function getSkills(element: Cash) {
 }
 
 function getSenses(element: Cash) {
-  return element.find(".ct-senses__summary").text().split(/,\s*/);
+  return element
+    .find(".ct-senses__summary")
+    .text()
+    .split(/,\s*/);
+}
+
+function getLanguages(element: Cash) {
+  return element
+    .find(".ct-proficiency-groups__group-label")
+    .filter((_, el) => cash(el).text() == "Languages")
+    .parents(".ct-proficiency-groups__group")
+    .find(".ct-proficiency-groups__group-items")
+    .text()
+    .split(",")
+    .map(s => s.trim());
 }
