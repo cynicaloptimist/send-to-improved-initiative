@@ -93,17 +93,33 @@ function getImageUrl(element: Cash) {
 }
 
 function getAbilities(element: Cash): AbilityScores {
+  const abilityScoreSelector = resolveAbilityScoreSelector(element);
   return {
-    Str: getAbility(element, "str"),
-    Dex: getAbility(element, "dex"),
-    Con: getAbility(element, "con"),
-    Int: getAbility(element, "int"),
-    Wis: getAbility(element, "wis"),
-    Cha: getAbility(element, "cha")
+    Str: getAbility(element, "str", abilityScoreSelector),
+    Dex: getAbility(element, "dex", abilityScoreSelector),
+    Con: getAbility(element, "con", abilityScoreSelector),
+    Int: getAbility(element, "int", abilityScoreSelector),
+    Wis: getAbility(element, "wis", abilityScoreSelector),
+    Cha: getAbility(element, "cha", abilityScoreSelector)
   };
 }
 
-function getAbility(element: Cash, ability: string) {
+function resolveAbilityScoreSelector(element: Cash) {
+  const modifiersRegex = /[\+\-]/g;
+  if (
+    modifiersRegex.test(element.find(".ct-ability-summary__secondary").text())
+  ) {
+    return ".ct-ability-summary__primary";
+  } else {
+    return ".ct-ability-summary__secondary";
+  }
+}
+
+function getAbility(
+  element: Cash,
+  ability: string,
+  abilityScoreSelector: string
+) {
   let score = 10;
   const scoreLabel = element
     .find(".ct-ability-summary__abbr")
@@ -111,7 +127,7 @@ function getAbility(element: Cash, ability: string) {
 
   const scoreText = scoreLabel
     .parents(".ct-ability-summary")
-    .find(".ct-ability-summary__secondary")
+    .find(abilityScoreSelector)
     .text();
   try {
     score = parseInt(scoreText);
@@ -134,10 +150,13 @@ function getSaves(element: Cash) {
     .parents(".ct-saving-throws-summary__ability")
     .get()
     .map(el => {
+      const abilityName = cash(el)
+        .find(".ct-saving-throws-summary__ability-name")
+        .text();
+      const titleCasedAbilityName =
+        abilityName.substr(0, 1).toLocaleUpperCase() + abilityName.substr(1);
       return {
-        Name: cash(el)
-          .find(".ct-saving-throws-summary__ability-name")
-          .text(),
+        Name: titleCasedAbilityName,
         Modifier: parseInt(
           cash(el)
             .find(".ct-saving-throws-summary__ability-modifier")
