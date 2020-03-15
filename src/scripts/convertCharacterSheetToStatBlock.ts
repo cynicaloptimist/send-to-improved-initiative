@@ -168,7 +168,7 @@ function getSaves(element: Cash) {
 
 function getSkills(element: Cash) {
   return element
-    .find(`[data-original-title="Proficiency"]`)
+    .find(`[data-original-title="Proficiency"], [data-original-title="Half Proficiency"], [data-original-title="Expertise"]`)
     .parents(".ct-skills__item")
     .get()
     .map(el => {
