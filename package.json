@@ -33,7 +33,7 @@
     "cash-dom": "^4.1.4",
     "cross-env": "^3.2.4",
     "event-stream": "^3.3.4",
-    "gulp": "^4.0.0",
+    "gulp": "^4.0.2",
     "gulp-babel": "^6.1.0",
     "gulp-clean": "^0.4.0",
     "gulp-eslint": "^6.0.0",
