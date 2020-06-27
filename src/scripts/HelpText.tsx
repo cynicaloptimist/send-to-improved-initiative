@@ -21,7 +21,7 @@ export function HelpText() {
   );
 }
 
-function Link(props: { url: string; children: React.ReactNode }) {
+function Link(props: { url: string; children: any }) {
   return (
     <a
       href="#"
