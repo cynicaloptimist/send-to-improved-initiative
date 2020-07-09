@@ -213,7 +213,7 @@ function getPowers(element: Cash, type: string): NameAndContent[] {
     .get()
     .map(el => {
       const contentNode = cash(el).clone();
-      const powerName = contentNode.find("strong").remove();
+      const powerName = contentNode.find("strong").first().remove();
       return {
         Name: powerName
           .text()
