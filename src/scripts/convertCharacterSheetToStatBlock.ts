@@ -47,7 +47,7 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
     Reactions: [],
     LegendaryActions: [],
     ImageURL: getImageUrl(characterSheetElement),
-    Description: options["include-link"] ? `[Link to DNDB Character](${document.location.href})` : "",
+    Description: options["include-link"] === 'on' ? `[Link to DNDB Character](${document.location.href})` : "",
     Player: "player",
   };
   return statBlock;
