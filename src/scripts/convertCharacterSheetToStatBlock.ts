@@ -9,18 +9,20 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
   const statBlock: Partial<StatBlock> = {
     Source: "",
     Name: characterSheetElement
-      .find(prefix("character-tidbits__name"))
+      .find(prefix("character-name"))
       .text()
       .trim(),
     Type: characterSheetElement
-      .find(prefix("character-tidbits__race"))
+      .find(prefix("character-summary__race"))
       .text()
       .trim(),
     HP: getHitPoints(characterSheetElement),
     AC: getArmorClass(characterSheetElement),
     Abilities: getAbilities(characterSheetElement),
     Speed: [characterSheetElement.find(prefix("speed-box__box-value")).text()],
-    // InitiativeModifier?: number,
+    InitiativeModifier: Number(characterSheetElement.find(prefix('initiative-box__value'))
+      .text()
+      .trim().replace('+', '')),
     // InitiativeSpecialRoll?: "advantage" | "disadvantage" | "take-ten",
     // InitiativeAdvantage?: boolean,
     DamageVulnerabilities: getDefenses(characterSheetElement, "Vulnerability"),
@@ -45,7 +47,7 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
     Reactions: [],
     LegendaryActions: [],
     ImageURL: getImageUrl(characterSheetElement),
-    Description: "",
+    Description: options["include-link"] ? `[Link to DNDB Character](${document.location.href})` : "",
     Player: "player",
   };
   return statBlock;
