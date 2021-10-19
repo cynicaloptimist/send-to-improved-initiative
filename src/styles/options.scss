@@ -16,8 +16,24 @@
 
 .content {
   min-height: 300px;
+  #main {
+    background-color: transparentize($color: $brand-primary, $amount: 0.8);
+    border-radius: $border-radius;
+  }
 }
 
 .target-url {
   width: 100%;
+  border-radius: $border-radius;
+  padding: $border-radius/2;
+}
+
+.option {
+  label {
+    font-weight: bold;
+  }
+  input[type], [type=checkbox] {
+    appearance: auto;
+    margin: 5px;
+  }
 }

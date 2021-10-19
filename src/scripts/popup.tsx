@@ -72,7 +72,7 @@ function Importer(props: { importedStatBlock?: StatBlock }) {
 }
 
 var renderPortraitWarningIfNeeded = (data: StatBlock) => {
-  if (data.ImageURL.length > 0) {
+  if (data && data.ImageURL && data.ImageURL.length > 0) {
     return "";
   }
   return (

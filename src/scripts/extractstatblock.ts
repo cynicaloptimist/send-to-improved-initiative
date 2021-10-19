@@ -51,14 +51,7 @@ export const extractStatBlock = (options: AllOptions) => {
     Reactions: getPowers(statBlockElement, "Reactions"),
     LegendaryActions: getPowers(statBlockElement, "Legendary Actions"),
     ImageURL: doc.find(".details-aside .image a").attr("href") || "",
-    Description:
-      options[Options.IncludeDescription] == "on"
-        ? doc
-            .find(".mon-details__description-block-content")
-            .text()
-            .trim()
-            .replace(/([^\n])\n([^\n])/gm, "$1\n\n$2") //replace single line breaks with double
-        : "",
+    Description: getDescription(doc, options), // twloveduck 2021.10.15 -- Moved to separate function.
     Player: ""
   };
 
@@ -76,6 +69,29 @@ function getSource(element: Cash, includePageNumber: boolean) {
   } else {
     return source.split(",")[0];
   }
+}
+
+/**
+ * Parse the HTML element to extract the description text.
+ * 
+ * twloveduck 2021.10.14 -- Moved from inline in the extract to a separate function to add a link back to DDB in the description.
+ * @param {Cash} doc The document element to parse for the description content.
+ * @param {AllOptions} options The user's chosen options.
+ * @returns {string} The monster description string. 
+ */
+function getDescription(doc: Cash, options: AllOptions) {
+  let retVal = "";
+  if (options[Options.IncludeDescription] === "on") {
+    retVal = doc.find(".mon-details__description-block-content")
+      .text()
+      .trim()
+      .replace(/([^\n])\n([^\n])/gm, "$1\n\n$2")//replace single line breaks with double
+  }
+  // twloveduck 2021.10.14 -- If the user has set the option then include a link back to DDB in the description.
+  if (options["include-link"] === "on")
+    retVal += `\n\n[Link to DNDB Monster](${document.location.href})`
+
+  return retVal.trim()
 }
 
 function getName(element: Cash) {
