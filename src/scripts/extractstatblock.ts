@@ -50,20 +50,18 @@ export const extractStatBlock = (options: AllOptions) => {
     Actions: getPowers(statBlockElement, "Actions"),
     Reactions: getPowers(statBlockElement, "Reactions"),
     LegendaryActions: getPowers(statBlockElement, "Legendary Actions"),
+    BonusActions: getPowers(statBlockElement, "Bonus Actions"),
+    MythicActions: getPowers(statBlockElement, "Mythic Actions"),
     ImageURL: doc.find(".details-aside .image a").attr("href") || "",
     Description: getDescription(doc, options), // twloveduck 2021.10.15 -- Moved to separate function.
-    Player: ""
+    Player: "",
   };
 
   return statBlock;
 };
 
 function getSource(element: Cash, includePageNumber: boolean) {
-  const source = element
-    .text()
-    .replace(/\s+/g, " ")
-    .replace(" ,", ",")
-    .trim();
+  const source = element.text().replace(/\s+/g, " ").replace(" ,", ",").trim();
   if (includePageNumber) {
     return source;
   } else {
@@ -73,39 +71,34 @@ function getSource(element: Cash, includePageNumber: boolean) {
 
 /**
  * Parse the HTML element to extract the description text.
- * 
+ *
  * twloveduck 2021.10.14 -- Moved from inline in the extract to a separate function to add a link back to DDB in the description.
  * @param {Cash} doc The document element to parse for the description content.
  * @param {AllOptions} options The user's chosen options.
- * @returns {string} The monster description string. 
+ * @returns {string} The monster description string.
  */
 function getDescription(doc: Cash, options: AllOptions) {
   let retVal = "";
   if (options[Options.IncludeDescription] === "on") {
-    retVal = doc.find(".mon-details__description-block-content")
+    retVal = doc
+      .find(".mon-details__description-block-content")
       .text()
       .trim()
-      .replace(/([^\n])\n([^\n])/gm, "$1\n\n$2")//replace single line breaks with double
+      .replace(/([^\n])\n([^\n])/gm, "$1\n\n$2"); //replace single line breaks with double
   }
   // twloveduck 2021.10.14 -- If the user has set the option then include a link back to DDB in the description.
   if (options["include-link"] === "on")
-    retVal += `\n\n[Link to DNDB Monster](${document.location.href})`
+    retVal += `\n\n[Link to DNDB Monster](${document.location.href})`;
 
-  return retVal.trim()
+  return retVal.trim();
 }
 
 function getName(element: Cash) {
-  return element
-    .find(".mon-stat-block__name a")
-    .text()
-    .trim();
+  return element.find(".mon-stat-block__name a").text().trim();
 }
 
 function getType(element: Cash) {
-  return element
-    .find(".mon-stat-block__meta")
-    .text()
-    .trim();
+  return element.find(".mon-stat-block__meta").text().trim();
 }
 
 function getArmorClass(element: Cash) {
@@ -123,11 +116,7 @@ function getAttribute(element: Cash, attributeName: string) {
     .first();
 
   const value = parseInt(
-    label
-      .parent()
-      .find(".mon-stat-block__attribute-data-value")
-      .text()
-      .trim()
+    label.parent().find(".mon-stat-block__attribute-data-value").text().trim()
   );
   const notes = label
     .parent()
@@ -136,7 +125,7 @@ function getAttribute(element: Cash, attributeName: string) {
     .trim();
   return {
     Value: value,
-    Notes: notes
+    Notes: notes,
   };
 }
 
@@ -147,7 +136,7 @@ function getAbilities(element: Cash): AbilityScores {
     Con: getAbility(element, "con"),
     Int: getAbility(element, "int"),
     Wis: getAbility(element, "wis"),
-    Cha: getAbility(element, "cha")
+    Cha: getAbility(element, "cha"),
   };
 }
 
@@ -191,15 +180,17 @@ function getDelimitedStrings(element: Cash, tidbitName: string) {
 
     const itemsWithPlaceholder = stringWithPlaceholder
       .split(splitPattern)
-      .map(s => s.trim());
-    return itemsWithPlaceholder.map(i => i.replace(bpsPlaceholder, bpsString));
+      .map((s) => s.trim());
+    return itemsWithPlaceholder.map((i) =>
+      i.replace(bpsPlaceholder, bpsString)
+    );
   }
   return [];
 }
 
 function getDelimitedModifiers(element: Cash, tidbitName: string) {
   const entries = getDelimitedStrings(element, tidbitName);
-  return entries.map(e => {
+  return entries.map((e) => {
     // Extract the last piece of the name/modifier, and parse an int from only that, ensuring the name can contain any manner of spacing.
     const nameAndModifier = e.split(" ");
     const modifierValue = parseInt(nameAndModifier.pop());
@@ -207,7 +198,7 @@ function getDelimitedModifiers(element: Cash, tidbitName: string) {
     // Join the remaining string name, and trim outside spacing just in case.
     return {
       Name: nameAndModifier.join(" ").trim(),
-      Modifier: modifierValue
+      Modifier: modifierValue,
     };
   });
 }
@@ -227,15 +218,12 @@ function getPowers(element: Cash, type: string): NameAndContent[] {
   const powerEntries = section
     .children("p")
     .get()
-    .map(el => {
+    .map((el) => {
       const contentNode = cash(el).clone();
       const powerName = contentNode.find("strong").first().remove();
       return {
-        Name: powerName
-          .text()
-          .trim()
-          .replace(/\.$/, ""),
-        Content: contentNode.text().trim()
+        Name: powerName.text().trim().replace(/\.$/, ""),
+        Content: contentNode.text().trim(),
       };
     });
 
@@ -257,7 +245,7 @@ function collapsePowerDescriptions(powerEntries: NameAndContent[]) {
       }
       return p.concat({
         Name: c.Name,
-        Content: fullPowerText
+        Content: fullPowerText,
       });
     }
     return p;
@@ -266,19 +254,22 @@ function collapsePowerDescriptions(powerEntries: NameAndContent[]) {
 
 function getPowerSection(element: Cash, type: string) {
   if (type == "Traits") {
-    return element.find(".mon-stat-block__description-block-content").filter(
+    return element
+      .find(".mon-stat-block__description-block-content")
+      .filter(
+        (i, e) =>
+          cash(e).parent().has(".mon-stat-block__description-block-heading")
+            .length == 0
+      );
+  }
+
+  return element
+    .find(".mon-stat-block__description-block-content")
+    .filter(
       (i, e) =>
         cash(e)
           .parent()
-          .has(".mon-stat-block__description-block-heading").length == 0
+          .find(".mon-stat-block__description-block-heading")
+          .text() == type
     );
-  }
-
-  return element.find(".mon-stat-block__description-block-content").filter(
-    (i, e) =>
-      cash(e)
-        .parent()
-        .find(".mon-stat-block__description-block-heading")
-        .text() == type
-  );
 }

@@ -47,6 +47,8 @@ export interface StatBlock {
   Actions: NameAndContent[];
   Reactions: NameAndContent[];
   LegendaryActions: NameAndContent[];
+  BonusActions?: NameAndContent[];
+  MythicActions?: NameAndContent[];
   Description: string;
   Player: string;
   ImageURL: string;
