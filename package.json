@@ -45,7 +45,7 @@
     "gulp-plumber": "^1.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-run-sequence": "*",
-    "gulp-sass": "^4.0.2",
+    "gulp-sass": "^5.0.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify-es": "^1.0.4",
     "gulp-zip": "^5.0.0",
@@ -57,6 +57,7 @@
     "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {
-    "preact": "^10.0.4"
+    "preact": "^10.0.4",
+    "sass": "^1.43.4"
   }
 }

@@ -10,6 +10,7 @@ import tsify from "tsify";
 import uglify from "gulp-uglify-es";
 import gulpif from "gulp-if";
 const $ = require("gulp-load-plugins")();
+var sass = require("gulp-sass")(require("sass"));
 
 var production = process.env.NODE_ENV === "production";
 var target = process.env.TARGET || "chrome";
@@ -22,25 +23,22 @@ var context = Object.assign({}, generic, specific);
 var manifest = {
   dev: {
     background: {
-      scripts: ["scripts/livereload.js", "scripts/background.js"]
-    }
+      scripts: ["scripts/livereload.js", "scripts/background.js"],
+    },
   },
 
   firefox: {
     applications: {
       gecko: {
-        id: "extension@improved-initiative.com"
-      }
-    }
-  }
+        id: "extension@improved-initiative.com",
+      },
+    },
+  },
 };
 
 // Tasks
 gulp.task("clean", () => {
-  return pipe(
-    `./build/${target}`,
-    $.clean()
-  );
+  return pipe(`./build/${target}`, $.clean());
 });
 
 gulp.task("manifest", () => {
@@ -52,7 +50,7 @@ gulp.task("manifest", () => {
         $.mergeJson({
           fileName: "manifest.json",
           jsonSpace: " ".repeat(4),
-          endObj: manifest.dev
+          endObj: manifest.dev,
         })
       )
     )
@@ -62,14 +60,14 @@ gulp.task("manifest", () => {
         $.mergeJson({
           fileName: "manifest.json",
           jsonSpace: " ".repeat(4),
-          endObj: manifest.firefox
+          endObj: manifest.firefox,
         })
       )
     )
     .pipe(gulp.dest(`./build/${target}`));
 });
 
-gulp.task("js", done => {
+gulp.task("js", (done) => {
   return buildJS(target, done);
 });
 
@@ -78,20 +76,20 @@ gulp.task("styles", () => {
     .src("src/styles/**/*.scss")
     .pipe($.plumber())
     .pipe(
-      $.sass
+      sass
         .sync({
           outputStyle: "expanded",
           precision: 10,
-          includePaths: ["."]
+          includePaths: ["."],
         })
-        .on("error", $.sass.logError)
+        .on("error", sass.logError)
     )
     .pipe(gulp.dest(`build/${target}/styles`));
 });
 
 gulp.task(
   "ext",
-  gulp.parallel(["manifest", "js"], done => mergeAll(target).on("end", done))
+  gulp.parallel(["manifest", "js"], (done) => mergeAll(target).on("end", done))
 );
 
 gulp.task("build", gulp.series(["clean", "styles", "ext"]));
@@ -100,11 +98,7 @@ gulp.task("build", gulp.series(["clean", "styles", "ext"]));
 // DIST
 // -----------------
 gulp.task("zip", () => {
-  return pipe(
-    `./build/${target}/**/*`,
-    $.zip(`${target}.zip`),
-    "./dist"
-  );
+  return pipe(`./build/${target}/**/*`, $.zip(`${target}.zip`), "./dist");
 });
 
 gulp.task("dist", gulp.series(["build", "zip"]));
@@ -129,26 +123,11 @@ function pipe(src, ...transforms) {
 
 function mergeAll(dest) {
   return merge(
-    pipe(
-      "./src/icons/**/*",
-      `./build/${dest}/icons`
-    ),
-    pipe(
-      ["./src/_locales/**/*"],
-      `./build/${dest}/_locales`
-    ),
-    pipe(
-      [`./src/images/${target}/**/*`],
-      `./build/${dest}/images`
-    ),
-    pipe(
-      ["./src/images/shared/**/*"],
-      `./build/${dest}/images`
-    ),
-    pipe(
-      ["./src/**/*.html"],
-      `./build/${dest}`
-    )
+    pipe("./src/icons/**/*", `./build/${dest}/icons`),
+    pipe(["./src/_locales/**/*"], `./build/${dest}/_locales`),
+    pipe([`./src/images/${target}/**/*`], `./build/${dest}/images`),
+    pipe(["./src/images/shared/**/*"], `./build/${dest}/images`),
+    pipe(["./src/**/*.html"], `./build/${dest}`)
   );
 }
 
@@ -158,26 +137,27 @@ function buildJS(target, done) {
     "contentscript.ts",
     "optionseditor.tsx",
     "popup.tsx",
-    "livereload.ts"
+    "livereload.ts",
   ];
 
-  let tasks = files.map(file => {
-    return browserify({
-      entries: "src/scripts/" + file,
-      debug: true
-    })
-      .plugin(tsify)
-      .transform("babelify", { presets: ["es2015"] })
-      .transform(preprocessify, {
-        includeExtensions: [".ts, .tsx"],
-        context: context
+  let tasks = files.map((file) => {
+    return (
+      browserify({
+        entries: "src/scripts/" + file,
+        debug: true,
       })
-      .bundle()
-      .pipe(source(file))
-      .pipe(buffer())
-      .pipe(gulpif(!production, $.sourcemaps.init({ loadMaps: true })))
-      .pipe(gulpif(!production, $.sourcemaps.write("./")))
-      /*.pipe(
+        .plugin(tsify)
+        .transform("babelify", { presets: ["es2015"] })
+        .transform(preprocessify, {
+          includeExtensions: [".ts, .tsx"],
+          context: context,
+        })
+        .bundle()
+        .pipe(source(file))
+        .pipe(buffer())
+        .pipe(gulpif(!production, $.sourcemaps.init({ loadMaps: true })))
+        .pipe(gulpif(!production, $.sourcemaps.write("./")))
+        /*.pipe(
         gulpif(
           production,
           uglify({
@@ -188,12 +168,13 @@ function buildJS(target, done) {
           })
         )
       )*/
-      .pipe(
-        rename({
-          extname: ".js"
-        })
-      )
-      .pipe(gulp.dest(`build/${target}/scripts`));
+        .pipe(
+          rename({
+            extname: ".js",
+          })
+        )
+        .pipe(gulp.dest(`build/${target}/scripts`))
+    );
   });
 
   return merge(tasks).on("end", done);
