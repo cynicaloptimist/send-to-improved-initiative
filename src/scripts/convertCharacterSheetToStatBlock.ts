@@ -8,10 +8,7 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
   const characterSheetElement = doc.find(prefix("character-sheet"));
   const statBlock: Partial<StatBlock> = {
     Source: "",
-    Name: characterSheetElement
-      .find(prefix("character-name"))
-      .text()
-      .trim(),
+    Name: characterSheetElement.find(prefix("character-name")).text().trim(),
     Type: characterSheetElement
       .find(prefix("character-summary__race"))
       .text()
@@ -20,9 +17,13 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
     AC: getArmorClass(characterSheetElement),
     Abilities: getAbilities(characterSheetElement),
     Speed: [characterSheetElement.find(prefix("speed-box__box-value")).text()],
-    InitiativeModifier: Number(characterSheetElement.find(prefix('initiative-box__value'))
-      .text()
-      .trim().replace('+', '')),
+    InitiativeModifier: Number(
+      characterSheetElement
+        .find(prefix("initiative-box__value"))
+        .text()
+        .trim()
+        .replace("+", "")
+    ),
     // InitiativeSpecialRoll?: "advantage" | "disadvantage" | "take-ten",
     // InitiativeAdvantage?: boolean,
     DamageVulnerabilities: getDefenses(characterSheetElement, "Vulnerability"),
@@ -30,10 +31,9 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
     DamageImmunities: getDefenses(characterSheetElement, "Immunity").filter(
       (immunity) => !IsConditionImmunity(immunity)
     ),
-    ConditionImmunities: getDefenses(
-      characterSheetElement,
-      "Immunity"
-    ).filter((immunity) => IsConditionImmunity(immunity)),
+    ConditionImmunities: getDefenses(characterSheetElement, "Immunity").filter(
+      (immunity) => IsConditionImmunity(immunity)
+    ),
     Saves: getSaves(characterSheetElement),
     Skills: getSkills(characterSheetElement),
     Senses: getSenses(characterSheetElement),
@@ -47,7 +47,10 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
     Reactions: [],
     LegendaryActions: [],
     ImageURL: getImageUrl(characterSheetElement),
-    Description: options["include-link"] === 'on' ? `[Link to DNDB Character](${document.location.href})` : "",
+    Description:
+      options["include-link"] === "on"
+        ? `[Link to DNDB Character](${document.location.href})`
+        : "",
     Player: "player",
   };
   return statBlock;
