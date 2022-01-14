@@ -87,7 +87,7 @@ function getArmorClass(element: Cash) {
 
 function getImageUrl(element: Cash) {
   const backgroundImageAttribute =
-    element.find(prefix("character-tidbits__avatar")).css("background-image") ||
+    element.find(prefix("character-avatar__portrait")).css("background-image") ||
     "";
   if (!backgroundImageAttribute.length) {
     return "";
