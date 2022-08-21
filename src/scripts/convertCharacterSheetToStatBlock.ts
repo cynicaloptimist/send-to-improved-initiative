@@ -8,7 +8,7 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
   const characterSheetElement = doc.find(prefix("character-sheet"));
   const statBlock: Partial<StatBlock> = {
     Source: "",
-    Name: characterSheetElement.find(prefix("character-name")).text().trim(),
+    Name: characterSheetElement.find(prefix("character-tidbits__heading h1")).text().trim(),
     Type: characterSheetElement
       .find(prefix("character-summary__race"))
       .text()
