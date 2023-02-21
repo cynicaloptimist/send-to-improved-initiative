@@ -8,7 +8,7 @@ export enum Options {
 export type AllOptions = Record<Options, string>;
 
 export const OptionDefaults: AllOptions = {
-  [Options.TargetUrl]: "https://www.improved-initiative.com/e/",
+  [Options.TargetUrl]: "https://improvedinitiative.app/e/",
   [Options.IncludePageNumberWithSource]: "on",
   [Options.IncludeDescription]: "on",
   [Options.IncludeLink]: "on"
