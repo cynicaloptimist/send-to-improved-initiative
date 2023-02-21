@@ -1,6 +1,6 @@
 import storage from "./utils/storage";
 import { h, render, Fragment } from "preact";
-import { Options, AllOptions } from "./options";
+import { Options, AllOptions, OptionDefaults } from "./options";
 
 const options = document.getElementById("options");
 
@@ -23,48 +23,56 @@ function OptionsEditor(props: { currentOptions: AllOptions }) {
         <div class="grid" id="main">
           <div class="unit whole center-on-mobiles">
             <div class="option">
-              
-            <input type="checkbox" id="Include-Description" checked={
-              props.currentOptions[Options.IncludeDescription] === "on"
-            }
-              onChange={UpdateCheckbox(Options.IncludeDescription)} />
-            <label for="Include-Description">Include description</label>
-          </div>
-          <div class="option">
-            <input
-              type="checkbox"
-              id="Options.IncludePageNumberWithSource"
-              checked={
-                props.currentOptions[Options.IncludePageNumberWithSource] === "on"
-              }
-              onChange={UpdateCheckbox(Options.IncludePageNumberWithSource)}
-            />
-            <label for="Options.IncludePageNumberWithSource">Include page number in source</label>
-          </div>
-          <div class="option">
-            <input 
-              type="checkbox" 
-              id="Options.IncludeLink"
-              checked={
-                props.currentOptions[Options.IncludeLink] === "on"
-              }
-              onChange={UpdateCheckbox(Options.IncludeLink)}
-              title="Includes a link back to the source URL at the end of the description block."
+              <input
+                type="checkbox"
+                id="Include-Description"
+                checked={
+                  props.currentOptions[Options.IncludeDescription] === "on"
+                }
+                onChange={UpdateCheckbox(Options.IncludeDescription)}
               />
-            <label for="Options.IncludeLink">Include Link to Source in Description</label>
-          </div>
-          <div class="option">
-            <label for="Options.TargetUrl">Target URL</label>
-            <input
-              id="Options.TargetUrl"
-              class="js-text target-url"
-              type="text"
-              name="target-url"
-              value={props.currentOptions[Options.TargetUrl]}
-              onChange={UpdateText(Options.TargetUrl)}
-              placeholder="https://www.improved-initiative.com/e/"
-              title="The URL that the data is sent to. Typically https://www.improved-initiative.com/e/"
-            />
+              <label for="Include-Description">Include description</label>
+            </div>
+            <div class="option">
+              <input
+                type="checkbox"
+                id="Options.IncludePageNumberWithSource"
+                checked={
+                  props.currentOptions[Options.IncludePageNumberWithSource] ===
+                  "on"
+                }
+                onChange={UpdateCheckbox(Options.IncludePageNumberWithSource)}
+              />
+              <label for="Options.IncludePageNumberWithSource">
+                Include page number in source
+              </label>
+            </div>
+            <div class="option">
+              <input
+                type="checkbox"
+                id="Options.IncludeLink"
+                checked={props.currentOptions[Options.IncludeLink] === "on"}
+                onChange={UpdateCheckbox(Options.IncludeLink)}
+                title="Includes a link back to the source URL at the end of the description block."
+              />
+              <label for="Options.IncludeLink">
+                Include Link to Source in Description
+              </label>
+            </div>
+            <div class="option">
+              <label for="Options.TargetUrl">Target URL</label>
+              <input
+                id="Options.TargetUrl"
+                class="js-text target-url"
+                type="text"
+                name="target-url"
+                value={props.currentOptions[Options.TargetUrl]}
+                onChange={UpdateText(Options.TargetUrl)}
+                placeholder={OptionDefaults[Options.TargetUrl]}
+                title={`The URL that the data is sent to. Typically ${
+                  OptionDefaults[Options.TargetUrl]
+                }`}
+              />
             </div>
           </div>
         </div>
@@ -85,7 +93,7 @@ function UpdateCheckbox(optionName: Options) {
     const input = e.target as HTMLInputElement;
     const newValue = input.checked ? "on" : "off";
     storage.set({
-      [optionName]: newValue
+      [optionName]: newValue,
     });
   };
 }
@@ -95,7 +103,7 @@ function UpdateText(optionName: Options) {
     const input = e.target as HTMLInputElement;
     const newValue = input.value;
     storage.set({
-      [optionName]: newValue
+      [optionName]: newValue,
     });
   };
 }
