@@ -17,6 +17,20 @@ storage.get(Object.values(Options), (values) => {
   }
 });
 
+storage.get(Options.TargetUrl, async (values) => {
+  const url: string = values[Options.TargetUrl];
+  if (!url) {
+    return;
+  }
+  if (url.includes("improved-initiative.com")) {
+    const updatedUrl = url.replace(
+      "improved-initiative.com",
+      "improvedinitiative.app"
+    );
+    storage.set({ [Options.TargetUrl]: updatedUrl });
+  }
+});
+
 function newIITab(url: string) {
   tabs.create({ url: url }, (tab) => {
     CurrentTabId = tab.id;
