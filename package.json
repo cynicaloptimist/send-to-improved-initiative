@@ -47,7 +47,7 @@
     "gulp-run-sequence": "*",
     "gulp-sass": "^5.0.0",
     "gulp-sourcemaps": "^1.6.0",
-    "gulp-uglify-es": "^1.0.4",
+    "gulp-uglify-es": "^3.0.0",
     "gulp-zip": "^5.1.0",
     "json-url": "^2.6.0",
     "preprocessify": "^1.0.1",
