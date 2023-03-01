@@ -22,12 +22,11 @@ storage.get(Options.TargetUrl, async (values) => {
   if (!url) {
     return;
   }
-  if (url.includes("improved-initiative.com")) {
-    const updatedUrl = url.replace(
-      "improved-initiative.com",
-      "improvedinitiative.app"
-    );
-    storage.set({ [Options.TargetUrl]: updatedUrl });
+  if (
+    url.includes("improved-initiative.com") ||
+    url.includes("www.improvedinitiative.app")
+  ) {
+    storage.set({ [Options.TargetUrl]: OptionDefaults[Options.TargetUrl] });
   }
 });
 
