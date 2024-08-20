@@ -23,7 +23,7 @@ var context = Object.assign({}, generic, specific);
 var manifest = {
   dev: {
     background: {
-      scripts: ["scripts/livereload.js", "scripts/serviceWorker.js"],
+      scripts: ["scripts/livereload.js", "scripts/service_worker.js"],
     },
   },
 
@@ -133,7 +133,7 @@ function mergeAll(dest) {
 
 function buildJS(target, done) {
   const files = [
-    "serviceWorker.ts",
+    "service_worker.ts",
     "contentscript.ts",
     "optionseditor.tsx",
     "popup.tsx",
