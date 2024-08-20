@@ -23,7 +23,7 @@ var context = Object.assign({}, generic, specific);
 var manifest = {
   dev: {
     background: {
-      scripts: ["scripts/livereload.js", "scripts/background.js"],
+      scripts: ["scripts/livereload.js", "scripts/serviceWorker.js"],
     },
   },
 
