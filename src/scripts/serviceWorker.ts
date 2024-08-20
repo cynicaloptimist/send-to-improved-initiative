@@ -5,7 +5,6 @@ const codec = require("json-url")("lzma");
 
 const runtime: typeof chrome.runtime = ext.runtime;
 const tabs: typeof chrome.tabs = ext.tabs;
-var CurrentTabId = undefined;
 
 storage.get(Object.values(Options), (values) => {
   for (const option in OptionDefaults) {
@@ -32,28 +31,34 @@ storage.get(Options.TargetUrl, async (values) => {
 
 function newIITab(url: string) {
   tabs.create({ url: url }, (tab) => {
-    CurrentTabId = tab.id;
-    console.log("New II tab id: ", CurrentTabId);
+    chrome.storage.local.set({ tabId: tab.id });
+    console.log("New II tab id: ", tab.id);
   });
 }
 
 // Handles if the II tab is closed.
-tabs.onRemoved.addListener((tabId: number, remInfo: object) => {
-  if (CurrentTabId === tabId) CurrentTabId = undefined;
+tabs.onRemoved.addListener(async (tabId: number, remInfo: object) => {
+  const current = await chrome.storage.local.get(["tabId"]);
+
+  if (current["tabId"] === tabId) {
+    chrome.storage.local.remove("tabId");
+  }
 });
 
 runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "perform-save") {
     storage.get(Options.TargetUrl, async (values) => {
+      const current = await chrome.storage.local.get(["tabId"]);
+
       const compressed = await codec.compress(
         JSON.stringify(request.importedStatBlock)
       );
 
       let iiUrl =
         values[Options.TargetUrl] + "?s=" + encodeURIComponent(compressed);
-      if (CurrentTabId) {
+      if (current["tabId"]) {
         try {
-          tabs.update(CurrentTabId, { url: iiUrl, active: true }, (tab) => {
+          tabs.update(current["tabId"], { url: iiUrl, active: true }, (tab) => {
             if (!tab || tab.id === tabs.TAB_ID_NONE) {
               console.error("Did not find tab");
               newIITab(iiUrl);
