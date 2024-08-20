@@ -1,7 +1,7 @@
 import ext from "./utils/ext";
 import {
   extractStatBlock} from "./extractstatblock";
-import { convertCharacterSheetToStatBlock } from "./convertCharacterSheetToStatBlock";
+import { convertCharacterSheetToStatBlock } from "./convert_sheet";
 import { ScrapeStatBlockAction } from "./actions";
 import storage from "./utils/storage";
 import { Options, AllOptions } from "./options";
