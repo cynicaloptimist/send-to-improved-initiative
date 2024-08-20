@@ -1,7 +1,7 @@
 {
   "name": "__MSG_appName__",
   "version": "0.5.5",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "description": "__MSG_appDescription__",
   "icons": {
     "16": "icons/icon-16.png",
@@ -9,25 +9,18 @@
   },
   "default_locale": "en",
   "background": {
-    "scripts": [
-      "scripts/background.js"
-    ]
+    "service_worker": ["scripts/serviceWorker.js"],
+    "type": "module"
   },
-  "permissions": [
-    "storage",
-    "https://www.dndbeyond.com/*"
-  ],
+  "permissions": ["storage"],
+  "host_permissions": ["https://www.dndbeyond.com/*"],
   "options_ui": {
     "page": "options.html"
   },
   "content_scripts": [
     {
-      "matches": [
-        "https://www.dndbeyond.com/*"
-      ],
-      "js": [
-        "scripts/contentscript.js"
-      ],
+      "matches": ["https://www.dndbeyond.com/*"],
+      "js": ["scripts/contentscript.js"],
       "run_at": "document_end",
       "all_frames": false
     }
@@ -41,5 +34,3 @@
     "default_popup": "popup.html"
   }
 }
-
-
