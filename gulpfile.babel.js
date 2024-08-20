@@ -133,7 +133,7 @@ function mergeAll(dest) {
 
 function buildJS(target, done) {
   const files = [
-    "background.ts",
+    "serviceWorker.ts",
     "contentscript.ts",
     "optionseditor.tsx",
     "popup.tsx",
