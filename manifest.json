@@ -9,7 +9,7 @@
   },
   "default_locale": "en",
   "background": {
-    "service_worker": ["scripts/serviceWorker.js"],
+    "service_worker": "scripts/serviceWorker.js",
     "type": "module"
   },
   "permissions": ["storage"],
