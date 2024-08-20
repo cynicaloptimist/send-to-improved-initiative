@@ -1,7 +1,7 @@
 import cash, { Cash } from "cash-dom";
 import { StatBlock, AbilityScores } from "./statblock";
 import { AllOptions } from "./options";
-import { IsConditionImmunity } from "./IsConditionImmunity";
+import { IsConditionImmunity } from "./is_condition_immunity";
 
 export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
   const doc = cash(document);

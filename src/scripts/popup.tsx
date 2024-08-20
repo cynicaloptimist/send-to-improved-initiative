@@ -2,7 +2,7 @@ import ext from "./utils/ext";
 import { StatBlock } from "./statblock";
 import { ScrapeStatBlockAction } from "./actions";
 import { h, render } from "preact";
-import { HelpText } from "./HelpText";
+import { HelpText } from "./help_text";
 
 const tabs: typeof chrome.tabs = ext.tabs;
 const runtime: typeof chrome.runtime = ext.runtime;
