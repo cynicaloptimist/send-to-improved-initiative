@@ -23,7 +23,7 @@ var context = Object.assign({}, generic, specific);
 var manifest = {
   dev: {
     background: {
-      scripts: ["scripts/livereload.js", "scripts/service_worker.js"],
+      service_worker: "scripts/service_worker_livereload.js",
     },
   },
 
@@ -137,7 +137,7 @@ function buildJS(target, done) {
     "contentscript.ts",
     "optionseditor.tsx",
     "popup.tsx",
-    "livereload.ts",
+    "service_worker_livereload.ts",
   ];
 
   let tasks = files.map((file) => {
