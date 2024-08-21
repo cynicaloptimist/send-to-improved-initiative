@@ -1,7 +1,7 @@
 import ext from "./utils/ext";
 import storage from "./utils/storage";
 import { Options, OptionDefaults } from "./options";
-const codec = require("json-url")("lzma");
+import lzString from "lz-string";
 
 const runtime: typeof chrome.runtime = ext.runtime;
 const tabs: typeof chrome.tabs = ext.tabs;
@@ -50,12 +50,11 @@ runtime.onMessage.addListener(function (request, sender, sendResponse) {
     storage.get(Options.TargetUrl, async (values) => {
       const current = await chrome.storage.local.get(["tabId"]);
 
-      const compressed = await codec.compress(
+      const compressed = lzString.compressToEncodedURIComponent(
         JSON.stringify(request.importedStatBlock)
       );
 
-      let iiUrl =
-        values[Options.TargetUrl] + "?s=" + encodeURIComponent(compressed);
+      let iiUrl = values[Options.TargetUrl] + "?i=" + compressed;
       if (current["tabId"]) {
         try {
           tabs.update(current["tabId"], { url: iiUrl, active: true }, (tab) => {
