@@ -181,7 +181,7 @@ function getSkills(element: Cash) {
     .map((el) => {
       return {
         Name: cash(el).find(prefix("skills__col--skill")).text(),
-        Modifier: parseInt(cash(el).find(prefix("styles_signed")).text()),
+        Modifier: parseInt(cash(el).find(prefix("skills__col--modifier")).text()),
       };
     });
 }
