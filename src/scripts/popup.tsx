@@ -59,7 +59,7 @@ function Importer(props: { importedStatBlock?: StatBlock }) {
               href="#"
               class="js-options"
               onClick={() =>
-                tabs.create({ url: ext.extension.getURL("options.html") })
+                tabs.create({ url: ext.runtime.getURL("options.html") })
               }
             >
               Options
