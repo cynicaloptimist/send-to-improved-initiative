@@ -10,6 +10,7 @@
   "default_locale": "en",
   "background": {
     "service_worker": "scripts/service_worker.js",
+    "scripts": ["scripts/service_worker.js"],
     "type": "module"
   },
   "permissions": ["storage"],
@@ -32,5 +33,10 @@
     },
     "default_title": "Improved Initiative",
     "default_popup": "popup.html"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "send-to-improved-initiative@improvedinitiative.app"
+    }
   }
 }
