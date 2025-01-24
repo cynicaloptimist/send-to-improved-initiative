@@ -7,6 +7,9 @@ const runtime: typeof chrome.runtime = ext.runtime;
 const tabs: typeof chrome.tabs = ext.tabs;
 
 storage.get(Object.values(Options), (values) => {
+  if (!values) {
+    values = {};
+  }
   for (const option in OptionDefaults) {
     if (values[option] == null) {
       storage.set({
@@ -17,6 +20,9 @@ storage.get(Object.values(Options), (values) => {
 });
 
 storage.get(Options.TargetUrl, async (values) => {
+  if (!values) {
+    values = {};
+  }
   const url: string = values[Options.TargetUrl];
   if (!url) {
     return;
