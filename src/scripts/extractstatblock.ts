@@ -259,7 +259,11 @@ function getPowerSection(element: Cash, type: string) {
       .filter(
         (i, e) =>
           cash(e).parent().has(".mon-stat-block__description-block-heading")
-            .length == 0
+            .length == 0 ||
+          cash(e)
+            .parent()
+            .find(".mon-stat-block__description-block-heading")
+            .text() == "Traits"
       );
   }
 
