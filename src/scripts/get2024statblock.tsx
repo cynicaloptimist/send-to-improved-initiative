@@ -1,71 +1,61 @@
 import cash, { Cash } from "cash-dom";
-import { StatBlock, AbilityScores, NameAndContent } from "./statblock";
 import { AllOptions, Options } from "./options";
-import { get2024StatBlock } from "./get2024statblock";
+import { AbilityScores, NameAndContent, StatBlock } from "./statblock";
 
-export const extractStatBlock = (options: AllOptions) => {
-  const doc = cash(document);
+export function get2024StatBlock(
+  options: AllOptions,
+  doc: Cash,
+  statBlockElements: Cash
+): StatBlock {
+  const statBlockElement = statBlockElements.first();
+  const statBlock: StatBlock = {
+    Source: getSource(
+      doc.find(".monster-source"),
+      options[Options.IncludePageNumberWithSource] == "on"
+    ),
+    Name: getName(statBlockElement),
+    Type: getType(statBlockElement),
+    HP: getHitPoints(statBlockElement),
+    AC: getArmorClass(statBlockElement),
+    Abilities: getAbilities(statBlockElement),
+    Speed: getDelimitedStrings(statBlockElement, "Speed"),
+    // InitiativeModifier?: number,
+    // InitiativeSpecialRoll?: "advantage" | "disadvantage" | "take-ten",
+    // InitiativeAdvantage?: boolean,
+    DamageVulnerabilities: getDelimitedStrings(
+      statBlockElement,
+      "Damage Vulnerabilities"
+    ),
+    DamageResistances: getDelimitedStrings(
+      statBlockElement,
+      "Damage Resistances"
+    ),
+    DamageImmunities: getDelimitedStrings(
+      statBlockElement,
+      "Damage Immunities"
+    ),
+    ConditionImmunities: getDelimitedStrings(
+      statBlockElement,
+      "Condition Immunities"
+    ),
+    Saves: getDelimitedModifiers(statBlockElement, "Saving Throws"),
+    Skills: getDelimitedModifiers(statBlockElement, "Skills"),
+    Senses: getDelimitedStrings(statBlockElement, "Senses"),
+    Languages: getDelimitedStrings(statBlockElement, "Languages"),
+    Challenge: getChallenge(statBlockElement),
+    Traits: getPowers(statBlockElement, "Traits"),
+    Actions: getPowers(statBlockElement, "Actions"),
+    Reactions: getPowers(statBlockElement, "Reactions"),
+    LegendaryActions: getPowers(statBlockElement, "Legendary Actions"),
+    BonusActions: getPowers(statBlockElement, "Bonus Actions"),
+    MythicActions: getPowers(statBlockElement, "Mythic Actions"),
+    ImageURL: doc.find(".details-aside .image a").attr("href") || "",
+    Description: getDescription(doc, options), // twloveduck 2021.10.15 -- Moved to separate function.
+    Player: "",
+  };
 
-  const statBlock2024Elements = doc.find(".mon-stat-block-2024");
-  if (statBlock2024Elements.length > 0) {
-    return get2024StatBlock(options, doc, statBlock2024Elements);
-  }
-
-  const statBlockElements = doc.find(".mon-stat-block");
-
-  if (statBlockElements.length > 0) {
-    const statBlockElement = statBlockElements.first();
-    const statBlock: StatBlock = {
-      Source: getSource(
-        doc.find(".monster-source"),
-        options[Options.IncludePageNumberWithSource] == "on"
-      ),
-      Name: getName(statBlockElement),
-      Type: getType(statBlockElement),
-      HP: getHitPoints(statBlockElement),
-      AC: getArmorClass(statBlockElement),
-      Abilities: getAbilities(statBlockElement),
-      Speed: getDelimitedStrings(statBlockElement, "Speed"),
-      // InitiativeModifier?: number,
-      // InitiativeSpecialRoll?: "advantage" | "disadvantage" | "take-ten",
-      // InitiativeAdvantage?: boolean,
-      DamageVulnerabilities: getDelimitedStrings(
-        statBlockElement,
-        "Damage Vulnerabilities"
-      ),
-      DamageResistances: getDelimitedStrings(
-        statBlockElement,
-        "Damage Resistances"
-      ),
-      DamageImmunities: getDelimitedStrings(
-        statBlockElement,
-        "Damage Immunities"
-      ),
-      ConditionImmunities: getDelimitedStrings(
-        statBlockElement,
-        "Condition Immunities"
-      ),
-      Saves: getDelimitedModifiers(statBlockElement, "Saving Throws"),
-      Skills: getDelimitedModifiers(statBlockElement, "Skills"),
-      Senses: getDelimitedStrings(statBlockElement, "Senses"),
-      Languages: getDelimitedStrings(statBlockElement, "Languages"),
-      Challenge: getChallenge(statBlockElement),
-      Traits: getPowers(statBlockElement, "Traits"),
-      Actions: getPowers(statBlockElement, "Actions"),
-      Reactions: getPowers(statBlockElement, "Reactions"),
-      LegendaryActions: getPowers(statBlockElement, "Legendary Actions"),
-      BonusActions: getPowers(statBlockElement, "Bonus Actions"),
-      MythicActions: getPowers(statBlockElement, "Mythic Actions"),
-      ImageURL: doc.find(".details-aside .image a").attr("href") || "",
-      Description: getDescription(doc, options), // twloveduck 2021.10.15 -- Moved to separate function.
-      Player: "",
-    };
-
-    return statBlock;
-  }
-
-  return null;
-};
+  return statBlock;
+}
 
 function getSource(element: Cash, includePageNumber: boolean) {
   const source = element.text().replace(/\s+/g, " ").replace(" ,", ",").trim();
@@ -88,7 +78,7 @@ function getDescription(doc: Cash, options: AllOptions) {
   let retVal = "";
   if (options[Options.IncludeDescription] === "on") {
     retVal = doc
-      .find(".mon-details__description-block-content")
+      .find(".mon-details__description-block-2024-content")
       .text()
       .trim()
       .replace(/([^\n])\n([^\n])/gm, "$1\n\n$2"); //replace single line breaks with double
@@ -101,33 +91,37 @@ function getDescription(doc: Cash, options: AllOptions) {
 }
 
 function getName(element: Cash) {
-  return element.find(".mon-stat-block__name a").text().trim();
+  return element.find(".mon-stat-block-2024__name-link").text().trim();
 }
 
 function getType(element: Cash) {
-  return element.find(".mon-stat-block__meta").text().trim();
+  return element.find(".mon-stat-block-2024__meta").text().trim();
 }
 
 function getArmorClass(element: Cash) {
-  return getAttribute(element, "Armor Class");
+  return getAttribute(element, "AC");
 }
 
 function getHitPoints(element: Cash) {
-  return getAttribute(element, "Hit Points");
+  return getAttribute(element, "HP");
 }
 
 function getAttribute(element: Cash, attributeName: string) {
   const label = element
-    .find(".mon-stat-block__attribute-label")
+    .find(".mon-stat-block-2024__attribute-label")
     .filter((_, e: Element) => e.innerHTML.trim() == attributeName)
     .first();
 
   const value = parseInt(
-    label.parent().find(".mon-stat-block__attribute-data-value").text().trim()
+    label
+      .parent()
+      .find(".mon-stat-block-2024__attribute-data-value")
+      .text()
+      .trim()
   );
   const notes = label
     .parent()
-    .find(".mon-stat-block__attribute-data-extra")
+    .find(".mon-stat-block-2024__attribute-data-extra")
     .text()
     .trim();
   return {
@@ -150,7 +144,7 @@ function getAbilities(element: Cash): AbilityScores {
 function getAbility(element: Cash, ability: string) {
   let score = 10;
   const scoreText = element
-    .find(`.ability-block__stat--${ability} .ability-block__score`)
+    .find(`.ability-block-2024__stat--${ability} .ability-block-2024__score`)
     .text();
   try {
     score = parseInt(scoreText);
@@ -160,13 +154,17 @@ function getAbility(element: Cash, ability: string) {
 
 function getDelimitedStrings(element: Cash, tidbitName: string) {
   const label = element
-    .find(".mon-stat-block__attribute-label, .mon-stat-block__tidbit-label")
+    .find(
+      ".mon-stat-block-2024__attribute-label, .mon-stat-block-2024__tidbit-label"
+    )
     .filter((_, e: Element) => e.innerHTML.trim() == tidbitName)
     .first();
 
   const delimitedString = label
     .parent()
-    .find(".mon-stat-block__attribute-data-value, .mon-stat-block__tidbit-data")
+    .find(
+      ".mon-stat-block-2024__attribute-data-value, .mon-stat-block-2024__tidbit-data"
+    )
     .text()
     .replace("--", "")
     .trim();
@@ -262,25 +260,27 @@ function collapsePowerDescriptions(powerEntries: NameAndContent[]) {
 function getPowerSection(element: Cash, type: string) {
   if (type == "Traits") {
     return element
-      .find(".mon-stat-block__description-block-content")
+      .find(".mon-stat-block-2024__description-block-2024-content")
       .filter(
         (i, e) =>
-          cash(e).parent().has(".mon-stat-block__description-block-heading")
+          cash(e)
+            .parent()
+            .has(".mon-stat-block-2024__description-block-2024-heading")
             .length == 0 ||
           cash(e)
             .parent()
-            .find(".mon-stat-block__description-block-heading")
+            .find(".mon-stat-block-2024__description-block-2024-heading")
             .text() == "Traits"
       );
   }
 
   return element
-    .find(".mon-stat-block__description-block-content")
+    .find(".mon-stat-block-2024__description-block-2024-content")
     .filter(
       (i, e) =>
         cash(e)
           .parent()
-          .find(".mon-stat-block__description-block-heading")
+          .find(".mon-stat-block-2024__description-block-2024-heading")
           .text() == type
     );
 }
