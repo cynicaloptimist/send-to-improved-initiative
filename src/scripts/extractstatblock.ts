@@ -6,58 +6,58 @@ export const extractStatBlock = (options: AllOptions) => {
   const doc = cash(document);
   const statBlockElements = doc.find(".mon-stat-block");
 
-  if (statBlockElements.length == 0) {
-    return null;
+  if (statBlockElements.length > 0) {
+    const statBlockElement = statBlockElements.first();
+    const statBlock: StatBlock = {
+      Source: getSource(
+        doc.find(".monster-source"),
+        options[Options.IncludePageNumberWithSource] == "on"
+      ),
+      Name: getName(statBlockElement),
+      Type: getType(statBlockElement),
+      HP: getHitPoints(statBlockElement),
+      AC: getArmorClass(statBlockElement),
+      Abilities: getAbilities(statBlockElement),
+      Speed: getDelimitedStrings(statBlockElement, "Speed"),
+      // InitiativeModifier?: number,
+      // InitiativeSpecialRoll?: "advantage" | "disadvantage" | "take-ten",
+      // InitiativeAdvantage?: boolean,
+      DamageVulnerabilities: getDelimitedStrings(
+        statBlockElement,
+        "Damage Vulnerabilities"
+      ),
+      DamageResistances: getDelimitedStrings(
+        statBlockElement,
+        "Damage Resistances"
+      ),
+      DamageImmunities: getDelimitedStrings(
+        statBlockElement,
+        "Damage Immunities"
+      ),
+      ConditionImmunities: getDelimitedStrings(
+        statBlockElement,
+        "Condition Immunities"
+      ),
+      Saves: getDelimitedModifiers(statBlockElement, "Saving Throws"),
+      Skills: getDelimitedModifiers(statBlockElement, "Skills"),
+      Senses: getDelimitedStrings(statBlockElement, "Senses"),
+      Languages: getDelimitedStrings(statBlockElement, "Languages"),
+      Challenge: getChallenge(statBlockElement),
+      Traits: getPowers(statBlockElement, "Traits"),
+      Actions: getPowers(statBlockElement, "Actions"),
+      Reactions: getPowers(statBlockElement, "Reactions"),
+      LegendaryActions: getPowers(statBlockElement, "Legendary Actions"),
+      BonusActions: getPowers(statBlockElement, "Bonus Actions"),
+      MythicActions: getPowers(statBlockElement, "Mythic Actions"),
+      ImageURL: doc.find(".details-aside .image a").attr("href") || "",
+      Description: getDescription(doc, options), // twloveduck 2021.10.15 -- Moved to separate function.
+      Player: "",
+    };
+
+    return statBlock;
   }
 
-  const statBlockElement = statBlockElements.first();
-  const statBlock: StatBlock = {
-    Source: getSource(
-      doc.find(".monster-source"),
-      options[Options.IncludePageNumberWithSource] == "on"
-    ),
-    Name: getName(statBlockElement),
-    Type: getType(statBlockElement),
-    HP: getHitPoints(statBlockElement),
-    AC: getArmorClass(statBlockElement),
-    Abilities: getAbilities(statBlockElement),
-    Speed: getDelimitedStrings(statBlockElement, "Speed"),
-    // InitiativeModifier?: number,
-    // InitiativeSpecialRoll?: "advantage" | "disadvantage" | "take-ten",
-    // InitiativeAdvantage?: boolean,
-    DamageVulnerabilities: getDelimitedStrings(
-      statBlockElement,
-      "Damage Vulnerabilities"
-    ),
-    DamageResistances: getDelimitedStrings(
-      statBlockElement,
-      "Damage Resistances"
-    ),
-    DamageImmunities: getDelimitedStrings(
-      statBlockElement,
-      "Damage Immunities"
-    ),
-    ConditionImmunities: getDelimitedStrings(
-      statBlockElement,
-      "Condition Immunities"
-    ),
-    Saves: getDelimitedModifiers(statBlockElement, "Saving Throws"),
-    Skills: getDelimitedModifiers(statBlockElement, "Skills"),
-    Senses: getDelimitedStrings(statBlockElement, "Senses"),
-    Languages: getDelimitedStrings(statBlockElement, "Languages"),
-    Challenge: getChallenge(statBlockElement),
-    Traits: getPowers(statBlockElement, "Traits"),
-    Actions: getPowers(statBlockElement, "Actions"),
-    Reactions: getPowers(statBlockElement, "Reactions"),
-    LegendaryActions: getPowers(statBlockElement, "Legendary Actions"),
-    BonusActions: getPowers(statBlockElement, "Bonus Actions"),
-    MythicActions: getPowers(statBlockElement, "Mythic Actions"),
-    ImageURL: doc.find(".details-aside .image a").attr("href") || "",
-    Description: getDescription(doc, options), // twloveduck 2021.10.15 -- Moved to separate function.
-    Player: "",
-  };
-
-  return statBlock;
+  return null;
 };
 
 function getSource(element: Cash, includePageNumber: boolean) {
