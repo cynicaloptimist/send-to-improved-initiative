@@ -27,18 +27,9 @@ export function get2024StatBlock(
       statBlockElement,
       "Vulnerabilities"
     ),
-    DamageResistances: getDelimitedStrings(
-      statBlockElement,
-      "Resistances"
-    ),
-    DamageImmunities: getDelimitedStrings(
-      statBlockElement,
-      "Damage Immunities"
-    ),
-    ConditionImmunities: getDelimitedStrings(
-      statBlockElement,
-      "Condition Immunities"
-    ),
+    DamageResistances: getDelimitedStrings(statBlockElement, "Resistances"),
+    DamageImmunities: getImmunities(statBlockElement).Damage,
+    ConditionImmunities: getImmunities(statBlockElement).Condition,
     Saves: getDelimitedModifiers(statBlockElement, "Saving Throws"),
     Skills: getDelimitedModifiers(statBlockElement, "Skills"),
     Senses: getDelimitedStrings(statBlockElement, "Senses"),
@@ -158,6 +149,41 @@ function getAbility(element: Cash, ability: string) {
     score = parseInt(scoreText);
   } catch (e) {}
   return score;
+}
+
+function getImmunities(element: Cash) {
+  const immunitiesListLabel = element
+    .find(".mon-stat-block-2024__tidbit-label")
+    .filter((_, e: Element) => e.innerHTML.trim() == "Immunities")
+    .first();
+  const immunitiesList = immunitiesListLabel
+    .siblings(".mon-stat-block-2024__tidbit-data")
+    .first();
+
+  if (immunitiesList.text().includes(";")) {
+    const [damage, condition] = immunitiesList.text().split(";");
+    return {
+      Damage: damage.split(",").map((i) => i.trim()),
+      Condition: condition.split(",").map((i) => i.trim()),
+    };
+  }
+  if (immunitiesList.has(".condition-tooltip").length > 0) {
+    return {
+      Damage: [],
+      Condition: immunitiesList
+        .text()
+        .split(",")
+        .map((i) => i.trim()),
+    };
+  } else {
+    return {
+      Damage: immunitiesList
+        .text()
+        .split(",")
+        .map((i) => i.trim()),
+      Condition: [],
+    };
+  }
 }
 
 function getDelimitedStrings(element: Cash, tidbitName: string) {
