@@ -25,11 +25,11 @@ export function get2024StatBlock(
     // InitiativeAdvantage?: boolean,
     DamageVulnerabilities: getDelimitedStrings(
       statBlockElement,
-      "Damage Vulnerabilities"
+      "Vulnerabilities"
     ),
     DamageResistances: getDelimitedStrings(
       statBlockElement,
-      "Damage Resistances"
+      "Resistances"
     ),
     DamageImmunities: getDelimitedStrings(
       statBlockElement,
