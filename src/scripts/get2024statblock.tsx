@@ -7,6 +7,7 @@ export function get2024StatBlock(
   doc: Cash,
   statBlockElements: Cash
 ): StatBlock {
+  console.log("Scraping 2024 Statblock");
   const statBlockElement = statBlockElements.first();
   const statBlock: StatBlock = {
     Source: getSource(
@@ -143,9 +144,16 @@ function getAbilities(element: Cash): AbilityScores {
 
 function getAbility(element: Cash, ability: string) {
   let score = 10;
-  const scoreText = element
-    .find(`.ability-block-2024__stat--${ability} .ability-block-2024__score`)
-    .text();
+
+  const scoreHeader = element
+    .find(".mon-stat-block-2024__stats th")
+    .filter(
+      (_, e: Element) => e.innerHTML.trim().toLocaleLowerCase() == ability
+    )
+    .first();
+
+  const scoreText = scoreHeader.siblings("td").first().text();
+
   try {
     score = parseInt(scoreText);
   } catch (e) {}
