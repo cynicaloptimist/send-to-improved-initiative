@@ -210,19 +210,7 @@ function getDelimitedStrings(element: Cash, tidbitName: string) {
       ? semicolonPattern
       : commaPattern;
 
-    const bpsString = "Bludgeoning, Piercing, and Slashing";
-    const bpsPlaceholder = "BPS_PLACEHOLDER";
-    const stringWithPlaceholder = delimitedString.replace(
-      bpsString,
-      bpsPlaceholder
-    );
-
-    const itemsWithPlaceholder = stringWithPlaceholder
-      .split(splitPattern)
-      .map((s) => s.trim());
-    return itemsWithPlaceholder.map((i) =>
-      i.replace(bpsPlaceholder, bpsString)
-    );
+    return delimitedString.split(splitPattern).map((s) => s.trim());
   }
   return [];
 }
