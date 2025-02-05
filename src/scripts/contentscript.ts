@@ -1,6 +1,5 @@
 import ext from "./utils/ext";
-import {
-  extractStatBlock} from "./extractstatblock";
+import { extractStatBlock } from "./extractstatblock";
 import { convertCharacterSheetToStatBlock } from "./convert_sheet";
 import { ScrapeStatBlockAction } from "./actions";
 import storage from "./utils/storage";
@@ -16,6 +15,11 @@ function onRequest(
       if (document.getElementsByClassName("mon-stat-block").length > 0) {
         return sendResponse(extractStatBlock(options));
       }
+
+      if (document.getElementsByClassName("mon-stat-block-2024").length > 0) {
+        return sendResponse(extractStatBlock(options));
+      }
+
       if (document.getElementsByClassName("ct-character-sheet").length > 0) {
         return sendResponse(convertCharacterSheetToStatBlock(options));
       }
