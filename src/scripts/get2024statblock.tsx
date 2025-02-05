@@ -231,7 +231,7 @@ function getDelimitedModifiers(element: Cash, tidbitName: string) {
 }
 
 function getChallenge(element: Cash) {
-  const challengeText = getDelimitedStrings(element, "Challenge");
+  const challengeText = getDelimitedStrings(element, "CR");
   if (challengeText.length == 0) {
     return "0";
   }
