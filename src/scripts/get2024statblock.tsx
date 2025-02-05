@@ -282,27 +282,27 @@ function collapsePowerDescriptions(powerEntries: NameAndContent[]) {
 function getPowerSection(element: Cash, type: string) {
   if (type == "Traits") {
     return element
-      .find(".mon-stat-block-2024__description-block-2024-content")
+      .find(".mon-stat-block-2024__description-block-content")
       .filter(
         (i, e) =>
           cash(e)
             .parent()
-            .has(".mon-stat-block-2024__description-block-2024-heading")
-            .length == 0 ||
+            .has(".mon-stat-block-2024__description-block-heading").length ==
+            0 ||
           cash(e)
             .parent()
-            .find(".mon-stat-block-2024__description-block-2024-heading")
+            .find(".mon-stat-block-2024__description-block-heading")
             .text() == "Traits"
       );
   }
 
   return element
-    .find(".mon-stat-block-2024__description-block-2024-content")
+    .find(".mon-stat-block-2024__description-block-content")
     .filter(
       (i, e) =>
         cash(e)
           .parent()
-          .find(".mon-stat-block-2024__description-block-2024-heading")
+          .find(".mon-stat-block-2024__description-block-heading")
           .text() == type
     );
 }
