@@ -1,6 +1,11 @@
 import cash, { Cash } from "cash-dom";
 import { AllOptions, Options } from "./options";
-import { AbilityScores, NameAndContent, StatBlock } from "./statblock";
+import {
+  AbilityScores,
+  NameAndContent,
+  NameAndModifier,
+  StatBlock,
+} from "./statblock";
 
 export function get2024StatBlock(
   options: AllOptions,
@@ -30,7 +35,7 @@ export function get2024StatBlock(
     DamageResistances: getDelimitedStrings(statBlockElement, "Resistances"),
     DamageImmunities: getImmunities(statBlockElement).Damage,
     ConditionImmunities: getImmunities(statBlockElement).Condition,
-    Saves: getDelimitedModifiers(statBlockElement, "Saving Throws"),
+    Saves: getSaves(statBlockElement),
     Skills: getDelimitedModifiers(statBlockElement, "Skills"),
     Senses: getDelimitedStrings(statBlockElement, "Senses"),
     Languages: getDelimitedStrings(statBlockElement, "Languages"),
@@ -137,7 +142,7 @@ function getAbility(element: Cash, ability: string) {
   let score = 10;
 
   const scoreHeader = element
-    .find(".mon-stat-block-2024__stats th")
+    .find(".mon-stat-block-2024__stats tbody th")
     .filter(
       (_, e: Element) => e.innerHTML.trim().toLocaleLowerCase() == ability
     )
@@ -149,6 +154,34 @@ function getAbility(element: Cash, ability: string) {
     score = parseInt(scoreText);
   } catch (e) {}
   return score;
+}
+
+function getSaves(element: Cash) {
+  let saves: NameAndModifier[] = [];
+
+  const scoreHeaders = element.find(".mon-stat-block-2024__stats tbody th");
+  scoreHeaders.each((_, scoreHeader: Element) => {
+    const siblingCells = cash(scoreHeader).siblings("td");
+    console.log({
+      cash_scoreHeader: cash(scoreHeader),
+      scoreHeader,
+      siblingCells,
+      parent: cash(scoreHeader).parent(),
+    });
+    if (siblingCells.length < 3) {
+      return;
+    }
+    const scoreModifier = siblingCells.eq(1).text();
+    const scoreSave = siblingCells.eq(2).text();
+    if (scoreSave !== scoreModifier) {
+      saves.push({
+        Name: cash(scoreHeader).text().trim(),
+        Modifier: parseInt(scoreSave),
+      });
+    }
+  });
+
+  return saves;
 }
 
 function getImmunities(element: Cash) {
