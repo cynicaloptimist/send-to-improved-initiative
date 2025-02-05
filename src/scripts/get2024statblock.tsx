@@ -70,7 +70,7 @@ function getDescription(doc: Cash, options: AllOptions) {
   let retVal = "";
   if (options[Options.IncludeDescription] === "on") {
     retVal = doc
-      .find(".mon-details__description-block-2024-content")
+      .find(".mon-details__description-block-content")
       .text()
       .trim()
       .replace(/([^\n])\n([^\n])/gm, "$1\n\n$2"); //replace single line breaks with double
