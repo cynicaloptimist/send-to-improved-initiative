@@ -25,7 +25,7 @@ export function get2024StatBlock(
     AC: getArmorClass(statBlockElement),
     Abilities: getAbilities(statBlockElement),
     Speed: getDelimitedStrings(statBlockElement, "Speed"),
-    // InitiativeModifier?: number,
+    InitiativeModifier: getInitiativeModifier(statBlockElement),
     // InitiativeSpecialRoll?: "advantage" | "disadvantage" | "take-ten",
     // InitiativeAdvantage?: boolean,
     DamageVulnerabilities: getDelimitedStrings(
@@ -101,6 +101,17 @@ function getArmorClass(element: Cash) {
 
 function getHitPoints(element: Cash) {
   return getAttribute(element, "HP");
+}
+
+function getInitiativeModifier(element: Cash) {
+  const dexScore = getAbility(element, "dex");
+  const dexModifier = Math.floor((dexScore - 10) / 2);
+  const initiativeHeader = element
+    .find(".mon-stat-block-2024__attribute-label")
+    .filter((_, e: Element) => e.innerHTML.trim() == "Initiative")
+    .first();
+  const initiativeListed = initiativeHeader.next().text().trim();
+  return parseInt(initiativeListed) - dexModifier;
 }
 
 function getAttribute(element: Cash, attributeName: string) {
