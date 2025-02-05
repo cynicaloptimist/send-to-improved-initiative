@@ -207,8 +207,14 @@ function getImmunities(element: Cash) {
   if (immunitiesList.text().includes(";")) {
     const [damage, condition] = immunitiesList.text().split(";");
     return {
-      Damage: damage.split(",").map((i) => i.trim()),
-      Condition: condition.split(",").map((i) => i.trim()),
+      Damage: damage
+        .split(",")
+        .map((i) => i.trim())
+        .filter((i) => i.length > 0),
+      Condition: condition
+        .split(",")
+        .map((i) => i.trim())
+        .filter((i) => i.length > 0),
     };
   }
   if (immunitiesList.has(".condition-tooltip").length > 0) {
@@ -217,14 +223,16 @@ function getImmunities(element: Cash) {
       Condition: immunitiesList
         .text()
         .split(",")
-        .map((i) => i.trim()),
+        .map((i) => i.trim())
+        .filter((i) => i.length > 0),
     };
   } else {
     return {
       Damage: immunitiesList
         .text()
         .split(",")
-        .map((i) => i.trim()),
+        .map((i) => i.trim())
+        .filter((i) => i.length > 0),
       Condition: [],
     };
   }
