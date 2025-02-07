@@ -1,5 +1,4 @@
 import "../styles/popup.scss";
-import "../styles/options.scss";
 import { OptionsEditor } from "./optionseditor";
 
 const storage = browser.storage.sync
