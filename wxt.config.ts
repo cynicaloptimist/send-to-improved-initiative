@@ -6,5 +6,6 @@ export default defineConfig({
   modules: ["@wxt-dev/module-react"],
   manifest: {
     permissions: ["storage"],
+    name: "Improved Initiative Importer for D&D Beyond",
   },
 });
