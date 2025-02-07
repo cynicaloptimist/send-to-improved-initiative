@@ -1,4 +1,5 @@
 import "../styles/popup.scss";
+import { HelpText } from "./help_text";
 import { OptionsEditor } from "./optionseditor";
 
 const storage = browser.storage.sync
@@ -18,6 +19,7 @@ function App() {
         if (!activeTabId) {
           return;
         }
+
         browser.tabs.sendMessage(
           activeTabId,
           { action: ScrapeStatBlockAction },
@@ -34,7 +36,13 @@ function App() {
   });
 
   if (showOptions && options) {
-    return <OptionsEditor currentOptions={options} setShowOptions={setShowOptions} />;
+    return (
+      <OptionsEditor currentOptions={options} setShowOptions={setShowOptions} />
+    );
+  }
+
+  if (!importedStatBlock) {
+    return <HelpText />;
   }
 
   return (

@@ -4,7 +4,7 @@ import { ScrapeStatBlockAction } from "@/utils/actions";
 import { Options, AllOptions } from "@/utils/options";
 
 export default defineContentScript({
-  matches: ["*://*.dndbeyond.com/*"],
+  matches: ["*://*.dndbeyond.com/*", "about:blank"],
   main() {
     console.log("Content script loaded");
 
