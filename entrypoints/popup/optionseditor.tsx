@@ -6,7 +6,10 @@ const storage = browser.storage.sync
   ? browser.storage.sync
   : browser.storage.local;
 
-export function OptionsEditor(props: { currentOptions: AllOptions }) {
+export function OptionsEditor(props: {
+  currentOptions: AllOptions;
+  setShowOptions: (show: boolean) => void;
+}) {
   console.log(JSON.stringify(props.currentOptions));
   return (
     <>
@@ -63,6 +66,12 @@ export function OptionsEditor(props: { currentOptions: AllOptions }) {
             }`}
           />
         </div>
+        <button
+          className="btn btn-primary"
+          onClick={() => props.setShowOptions(false)}
+        >
+          Done
+        </button>
       </section>
       <footer className="main-footer">
         <div className="unit whole center-on-mobiles">

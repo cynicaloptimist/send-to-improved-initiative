@@ -34,7 +34,7 @@ function App() {
   });
 
   if (showOptions && options) {
-    return <OptionsEditor currentOptions={options} />;
+    return <OptionsEditor currentOptions={options} setShowOptions={setShowOptions} />;
   }
 
   return (
