@@ -12,7 +12,7 @@ export function OptionsEditor(props: {
 }) {
   console.log(JSON.stringify(props.currentOptions));
   return (
-    <>
+    <div className="options-editor">
       <div className="heading">
         <h1>Import to Improved Initiative: Options</h1>
       </div>
@@ -67,7 +67,7 @@ export function OptionsEditor(props: {
           />
         </div>
         <button
-          className="btn btn-primary"
+          className="btn btn-primary btn-done"
           onClick={() => props.setShowOptions(false)}
         >
           Done
@@ -78,7 +78,7 @@ export function OptionsEditor(props: {
           <p className="text-center text-muted">&copy; Evan Bailey</p>
         </div>
       </footer>
-    </>
+    </div>
   );
 }
 

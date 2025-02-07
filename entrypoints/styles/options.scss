@@ -6,6 +6,13 @@
 @import "modules/layout";
 @import "modules/utilities";
 
+.options-editor {
+  border-color: $brand-primary;
+  border-width: 4px 0px;
+  border-style: solid;
+  padding: 6px;
+}
+
 .heading {
   margin: 1em auto;
   padding-bottom: 1em;
@@ -17,10 +24,9 @@
 }
 
 .options-content {
-  min-height: 300px;
-  border: 1px solid $brand-primary;
-  border-radius: $border-radius;
-  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .target-url {
@@ -41,4 +47,9 @@
     appearance: auto;
     margin: 5px;
   }
+}
+
+.btn-done {
+  align-self: center;
+  margin: 5px;
 }
