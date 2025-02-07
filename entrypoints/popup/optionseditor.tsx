@@ -1,28 +1,25 @@
-import storage from "./utils/storage";
-import { h, render, Fragment } from "preact";
-import { Options, AllOptions, OptionDefaults } from "./options";
+import { Options, AllOptions, OptionDefaults } from "@/utils/options";
+import { ChangeEvent } from "react";
 
-const options = document.getElementById("options");
+const storage = browser.storage.sync
+  ? browser.storage.sync
+  : browser.storage.local;
 
-storage.get(Object.values(Options), (values: AllOptions) => {
-  render(<OptionsEditor currentOptions={values} />, options);
-});
-
-function OptionsEditor(props: { currentOptions: AllOptions }) {
+export function OptionsEditor(props: { currentOptions: AllOptions }) {
   console.log(JSON.stringify(props.currentOptions));
   return (
-    <Fragment>
-      <div class="grid">
-        <div class="unit whole center-on-mobiles">
-          <div class="heading">
+    <>
+      <div className="grid">
+        <div className="unit whole center-on-mobiles">
+          <div className="heading">
             <h1>Import to Improved Initiative: Options</h1>
           </div>
         </div>
       </div>
-      <section class="content">
-        <div class="grid" id="main">
-          <div class="unit whole center-on-mobiles">
-            <div class="option">
+      <section className="content">
+        <div className="grid" id="main">
+          <div className="unit whole center-on-mobiles">
+            <div className="option">
               <input
                 type="checkbox"
                 id="Include-Description"
@@ -31,9 +28,9 @@ function OptionsEditor(props: { currentOptions: AllOptions }) {
                 }
                 onChange={UpdateCheckbox(Options.IncludeDescription)}
               />
-              <label for="Include-Description">Include description</label>
+              <label htmlFor="Include-Description">Include description</label>
             </div>
-            <div class="option">
+            <div className="option">
               <input
                 type="checkbox"
                 id="Options.IncludePageNumberWithSource"
@@ -43,11 +40,11 @@ function OptionsEditor(props: { currentOptions: AllOptions }) {
                 }
                 onChange={UpdateCheckbox(Options.IncludePageNumberWithSource)}
               />
-              <label for="Options.IncludePageNumberWithSource">
+              <label htmlFor="Options.IncludePageNumberWithSource">
                 Include page number in source
               </label>
             </div>
-            <div class="option">
+            <div className="option">
               <input
                 type="checkbox"
                 id="Options.IncludeLink"
@@ -55,15 +52,15 @@ function OptionsEditor(props: { currentOptions: AllOptions }) {
                 onChange={UpdateCheckbox(Options.IncludeLink)}
                 title="Includes a link back to the source URL at the end of the description block."
               />
-              <label for="Options.IncludeLink">
+              <label htmlFor="Options.IncludeLink">
                 Include Link to Source in Description
               </label>
             </div>
-            <div class="option">
-              <label for="Options.TargetUrl">Target URL</label>
+            <div className="option">
+              <label htmlFor="Options.TargetUrl">Target URL</label>
               <input
                 id="Options.TargetUrl"
-                class="js-text target-url"
+                className="js-text target-url"
                 type="text"
                 name="target-url"
                 value={props.currentOptions[Options.TargetUrl]}
@@ -77,19 +74,19 @@ function OptionsEditor(props: { currentOptions: AllOptions }) {
           </div>
         </div>
       </section>
-      <footer class="main-footer">
-        <div class="grid">
-          <div class="unit whole center-on-mobiles">
-            <p class="text-center text-muted">&copy; Evan Bailey</p>
+      <footer className="main-footer">
+        <div className="grid">
+          <div className="unit whole center-on-mobiles">
+            <p className="text-center text-muted">&copy; Evan Bailey</p>
           </div>
         </div>
       </footer>
-    </Fragment>
+    </>
   );
 }
 
 function UpdateCheckbox(optionName: Options) {
-  return (e: Event) => {
+  return (e: ChangeEvent) => {
     const input = e.target as HTMLInputElement;
     const newValue = input.checked ? "on" : "off";
     storage.set({
@@ -99,7 +96,7 @@ function UpdateCheckbox(optionName: Options) {
 }
 
 function UpdateText(optionName: Options) {
-  return (e: Event) => {
+  return (e: ChangeEvent) => {
     const input = e.target as HTMLInputElement;
     const newValue = input.value;
     storage.set({

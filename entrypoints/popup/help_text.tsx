@@ -1,12 +1,8 @@
-import { h } from "preact";
-import ext from "./utils/ext";
-
-const tabs: typeof chrome.tabs = ext.tabs;
 
 export function HelpText() {
   return (
-    <div class="popup-content">
-      <p class="message">
+    <div className="popup-content">
+      <p className="message">
         Could not scrape a StatBlock or Character Sheet from this page. Please
         ensure that you are on a StatBlock <strong>Details</strong> page, or
         viewing a Character Sheet.
@@ -26,7 +22,7 @@ function Link(props: { url: string; children: any }) {
     <a
       href="#"
       onClick={() =>
-        tabs.update({
+        browser.tabs.update({
           active: true,
           url: props.url
         })
