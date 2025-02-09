@@ -1,4 +1,3 @@
-import "../styles/popup.scss";
 import { HelpText } from "./help_text";
 import { OptionsEditor } from "./optionseditor";
 
@@ -59,7 +58,7 @@ function Importer(props: {
 }) {
   return (
     <div className="popup-content">
-      <h1 className="app-name">Import to Improved Initiative</h1>
+      <h1 className="app-name text-red">Import to Improved Initiative</h1>
       {props.importedStatBlock && (
         <div id="display-container">
           <div className="statblock-preview">

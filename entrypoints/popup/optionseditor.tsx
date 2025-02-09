@@ -1,4 +1,3 @@
-import "../styles/options.scss";
 import { Options, AllOptions, OptionDefaults } from "@/utils/options";
 import { ChangeEvent } from "react";
 
