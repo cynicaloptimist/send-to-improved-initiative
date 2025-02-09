@@ -1,8 +1,8 @@
 
 export function HelpText() {
   return (
-    <div className="popup-content">
-      <p className="message">
+    <div className="p-3 flex flex-col gap-2 text-base">
+      <p>
         Could not scrape a StatBlock or Character Sheet from this page. Please
         ensure that you are on a StatBlock <strong>Details</strong> page, or
         viewing a Character Sheet.
@@ -20,6 +20,7 @@ export function HelpText() {
 function Link(props: { url: string; children: any }) {
   return (
     <a
+    className="underline cursor-pointer text-brand"
       href="#"
       onClick={() =>
         browser.tabs.update({
