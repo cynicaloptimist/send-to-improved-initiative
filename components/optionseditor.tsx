@@ -11,23 +11,25 @@ export function OptionsEditor(props: {
 }) {
   console.log(JSON.stringify(props.currentOptions));
   return (
-    <div className="options-editor">
-      <div className="heading">
-        <h1>Import to Improved Initiative: Options</h1>
-      </div>
-      <section className="options-content">
-        <div className="option">
+    <Container>
+      <h1 className="text-brand font-bold text-lg">
+        Import to Improved Initiative: Options
+      </h1>
+      <section className="flex flex-col gap-1">
+        <div>
           <input
             type="checkbox"
+            className="m-2"
             id="Include-Description"
             checked={props.currentOptions[Options.IncludeDescription] === "on"}
             onChange={UpdateCheckbox(Options.IncludeDescription)}
           />
           <label htmlFor="Include-Description">Include description</label>
         </div>
-        <div className="option">
+        <div>
           <input
             type="checkbox"
+            className="m-2"
             id="Options.IncludePageNumberWithSource"
             checked={
               props.currentOptions[Options.IncludePageNumberWithSource] === "on"
@@ -38,9 +40,10 @@ export function OptionsEditor(props: {
             Include page number in source
           </label>
         </div>
-        <div className="option">
+        <div>
           <input
             type="checkbox"
+            className="m-2"
             id="Options.IncludeLink"
             checked={props.currentOptions[Options.IncludeLink] === "on"}
             onChange={UpdateCheckbox(Options.IncludeLink)}
@@ -50,11 +53,11 @@ export function OptionsEditor(props: {
             Include Link to Source in Description
           </label>
         </div>
-        <div className="option">
+        <div className="flex flex-row items-center">
           <label htmlFor="Options.TargetUrl">Target URL</label>
           <input
             id="Options.TargetUrl"
-            className="js-text target-url"
+            className="m-2 p-1 border border-brand border-solid rounded-md flex-grow"
             type="text"
             name="target-url"
             value={props.currentOptions[Options.TargetUrl]}
@@ -66,18 +69,14 @@ export function OptionsEditor(props: {
           />
         </div>
         <button
-          className="btn btn-primary btn-done"
+          className="bg-brand p-2 text-white"
           onClick={() => props.setShowOptions(false)}
         >
           Done
         </button>
       </section>
-      <footer className="main-footer">
-        <div className="unit whole center-on-mobiles">
-          <p className="text-center text-muted">&copy; Evan Bailey</p>
-        </div>
-      </footer>
-    </div>
+      <footer className="self-end">&copy; Evan Bailey</footer>
+    </Container>
   );
 }
 
