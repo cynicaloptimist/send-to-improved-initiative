@@ -8,4 +8,7 @@ export default defineConfig({
     permissions: ["storage"],
     name: "Improved Initiative Importer for D&D Beyond",
   },
+  runner: {
+    startUrls: ["https://www.dndbeyond.com/monsters"],
+  },
 });
