@@ -4,9 +4,9 @@ import { ScrapeStatBlockAction } from "@/utils/actions";
 import { Options, AllOptions } from "@/utils/options";
 
 export default defineContentScript({
-  matches: ["<all_urls>", "*://*.dndbeyond.com/*"],
-  main(ctx) {
-    console.log("Content script loaded");
+  matches: ["*://*.dndbeyond.com/*"],
+  main() {
+    console.log("Content Script Loaded.");
 
     const storage = browser.storage.sync
       ? browser.storage.sync
