@@ -3,42 +3,35 @@ export function Importer(props: {
   setShowOptions: (show: boolean) => void;
 }) {
   return (
-    <div className="popup-content">
-      <h1 className="app-name text-red">Import to Improved Initiative</h1>
+    <Container>
+      <h1 className="text-brand font-bold text-lg">
+        Import to Improved Initiative
+      </h1>
       {props.importedStatBlock && (
-        <div id="display-container">
-          <div className="statblock-preview">
+        <div>
+          <div>
             <h3>{props.importedStatBlock.Name}</h3>
-            <pre className="statblock-preview__json">
+            <pre className="overflow-y-auto max-h-[430px]">
               {JSON.stringify(props.importedStatBlock, null, 1)}
             </pre>
           </div>
           {renderPortraitWarningIfNeeded(props.importedStatBlock)}
-          <div className="action-container">
-            <button
-              id="save-btn"
-              className="btn btn-primary"
-              onClick={importStatBlock(props.importedStatBlock)}
-            >
-              Import
-            </button>
-          </div>
+          <button
+            className="bg-brand p-2 text-white"
+            onClick={importStatBlock(props.importedStatBlock)}
+          >
+            Import
+          </button>
         </div>
       )}
-      <footer>
-        <p>
-          <small>
-            <a
-              href="#"
-              className="js-options"
-              onClick={() => props.setShowOptions(true)}
-            >
-              Options
-            </a>
-          </small>
-        </p>
-      </footer>
-    </div>
+      <a
+        href="#"
+        className="self-end text-brand hover:underline"
+        onClick={() => props.setShowOptions(true)}
+      >
+        Options
+      </a>
+    </Container>
   );
 }
 
