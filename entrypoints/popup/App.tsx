@@ -12,6 +12,7 @@ function App() {
   const [options, setOptions] = useState<AllOptions>();
 
   useEffect(() => {
+    console.log("Sending message to content script");
     browser.tabs.query(
       { active: true, currentWindow: true },
       function (browserTabs) {

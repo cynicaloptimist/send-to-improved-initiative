@@ -4,8 +4,8 @@ import { ScrapeStatBlockAction } from "@/utils/actions";
 import { Options, AllOptions } from "@/utils/options";
 
 export default defineContentScript({
-  matches: ["*://*.dndbeyond.com/*", "about:blank"],
-  main() {
+  matches: ["<all_urls>", "*://*.dndbeyond.com/*"],
+  main(ctx) {
     console.log("Content script loaded");
 
     const storage = browser.storage.sync
@@ -17,8 +17,11 @@ export default defineContentScript({
       _sender: any,
       sendResponse: (response: any) => void
     ) {
+      console.log("Request received", request);
       if (request.action == ScrapeStatBlockAction) {
+        console.log("Getting storage");
         storage.get(Object.values(Options), (options: AllOptions) => {
+          console.log("Scraping statblock");
           if (document.getElementsByClassName("mon-stat-block").length > 0) {
             return sendResponse(extractStatBlock(options));
           }
@@ -34,6 +37,8 @@ export default defineContentScript({
           ) {
             return sendResponse(convertCharacterSheetToStatBlock(options));
           }
+
+          console.log("No statblock found");
 
           sendResponse(null);
         });
