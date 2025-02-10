@@ -8,10 +8,10 @@ export function Importer(props: {
         Import to Improved Initiative
       </h1>
       {props.importedStatBlock && (
-        <div>
-          <div>
+        <div className="flex flex-col flex-grow min-h-0">
+          <div className="flex flex-col flex-grow min-h-0">
             <h3>{props.importedStatBlock.Name}</h3>
-            <pre className="overflow-y-auto max-h-[430px]">
+            <pre className="overflow-y-auto flex-grow min-h-0">
               {JSON.stringify(props.importedStatBlock, null, 1)}
             </pre>
           </div>
