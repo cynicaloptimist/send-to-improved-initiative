@@ -43,7 +43,7 @@ function App() {
   }
 
   if (!importedStatBlock) {
-    return <HelpText />;
+    return <HelpText setShowOptions={setShowOptions} />;
   }
 
   return (

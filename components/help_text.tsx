@@ -1,6 +1,8 @@
 import { Container } from "./Container";
 
-export function HelpText() {
+export function HelpText(props: {
+  setShowOptions: (show: boolean) => void;
+}) {
   return (
     <Container>
       <p>
@@ -14,6 +16,13 @@ export function HelpText() {
       <Link url="https://www.dndbeyond.com/my-characters">
         D&amp;D Beyond: My Characters
       </Link>
+      <a
+        href="#"
+        className="self-end text-brand hover:underline"
+        onClick={() => props.setShowOptions(true)}
+      >
+        Options
+      </a>
     </Container>
   );
 }
