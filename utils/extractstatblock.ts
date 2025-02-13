@@ -200,7 +200,7 @@ function getDelimitedModifiers(element: Cash, tidbitName: string) {
   return entries.map((e) => {
     // Extract the last piece of the name/modifier, and parse an int from only that, ensuring the name can contain any manner of spacing.
     const nameAndModifier = e.split(" ");
-    const modifierValue = parseInt(nameAndModifier.pop());
+    const modifierValue = parseInt(nameAndModifier.pop() ?? "0");
 
     // Join the remaining string name, and trim outside spacing just in case.
     return {
@@ -216,7 +216,7 @@ function getChallenge(element: Cash) {
     return "0";
   }
   const matches = challengeText[0].match(/(\d|\/){1,4}/);
-  return matches[0] || "0";
+  return matches?.[0] || "0";
 }
 
 function getPowers(element: Cash, type: string): NameAndContent[] {
@@ -238,7 +238,7 @@ function getPowers(element: Cash, type: string): NameAndContent[] {
 }
 
 function collapsePowerDescriptions(powerEntries: NameAndContent[]) {
-  return powerEntries.reduce((p, c, i) => {
+  return powerEntries.reduce<NameAndContent[]>((p, c, i) => {
     const isFirstParagraph = i == 0 || c.Name.length > 0;
     let fullPowerText = c.Content;
 
