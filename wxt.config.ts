@@ -11,4 +11,11 @@ export default defineConfig({
   runner: {
     startUrls: ["https://www.dndbeyond.com/monsters"],
   },
+  vite: (env) => {
+    return {
+      build: {
+        minify: env.mode === "production",
+      },
+    };
+  },
 });
