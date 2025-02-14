@@ -1,13 +1,10 @@
-import { AllOptions } from "@/utils/options";
 import { HelpText } from "./help_text";
 import { Importer } from "./Importer";
 import { OptionsEditor } from "./optionseditor";
-import { storage } from "wxt/storage";
 
 function App() {
   const [importedStatBlock, setImportedStatBlock] = useState<StatBlock>();
   const [showOptions, setShowOptions] = useState(false);
-  const [options, setOptions] = useState<AllOptions>();
 
   useEffect(() => {
     console.log("Sending message to content script");
@@ -26,19 +23,10 @@ function App() {
         );
       }
     );
-  }, []);
+  }, [showOptions]);
 
-  useEffect(() => {
-    storage.getItems(Object.values(Options)).then((values) => {
-      const options = initializeOptionsFromStoredValues(values);
-      setOptions(options);
-    });
-  }, []);
-
-  if (showOptions && options) {
-    return (
-      <OptionsEditor setShowOptions={setShowOptions} />
-    );
+  if (showOptions) {
+    return <OptionsEditor setShowOptions={setShowOptions} />;
   }
 
   if (!importedStatBlock) {
