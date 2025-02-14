@@ -1,73 +1,36 @@
 import { Options, AllOptions, OptionDefaults } from "@/utils/options";
 import { ChangeEvent } from "react";
-
-const storage = browser.storage.sync
-  ? browser.storage.sync
-  : browser.storage.local;
+import { storage } from "wxt/storage";
 
 export function OptionsEditor(props: {
-  currentOptions: AllOptions;
   setShowOptions: (show: boolean) => void;
 }) {
-  console.log(JSON.stringify(props.currentOptions));
   return (
     <Container>
       <h1 className="text-brand font-bold text-lg">
         Import to Improved Initiative: Options
       </h1>
       <section className="flex flex-col gap-1">
-        <div>
-          <input
-            type="checkbox"
-            className="m-2"
-            id="Include-Description"
-            checked={props.currentOptions[Options.IncludeDescription] === "on"}
-            onChange={UpdateCheckbox(Options.IncludeDescription)}
-          />
-          <label htmlFor="Include-Description">Include description</label>
-        </div>
-        <div>
-          <input
-            type="checkbox"
-            className="m-2"
-            id="Options.IncludePageNumberWithSource"
-            checked={
-              props.currentOptions[Options.IncludePageNumberWithSource] === "on"
-            }
-            onChange={UpdateCheckbox(Options.IncludePageNumberWithSource)}
-          />
-          <label htmlFor="Options.IncludePageNumberWithSource">
-            Include page number in source
-          </label>
-        </div>
-        <div>
-          <input
-            type="checkbox"
-            className="m-2"
-            id="Options.IncludeLink"
-            checked={props.currentOptions[Options.IncludeLink] === "on"}
-            onChange={UpdateCheckbox(Options.IncludeLink)}
-            title="Includes a link back to the source URL at the end of the description block."
-          />
-          <label htmlFor="Options.IncludeLink">
-            Include Link to Source in Description
-          </label>
-        </div>
-        <div className="flex flex-row items-center">
-          <label htmlFor="Options.TargetUrl">Target URL</label>
-          <input
-            id="Options.TargetUrl"
-            className="m-2 p-1 border border-brand border-solid rounded-md flex-grow"
-            type="text"
-            name="target-url"
-            value={props.currentOptions[Options.TargetUrl]}
-            onChange={UpdateText(Options.TargetUrl)}
-            placeholder={OptionDefaults[Options.TargetUrl]}
-            title={`The URL that the data is sent to. Typically ${
-              OptionDefaults[Options.TargetUrl]
-            }`}
-          />
-        </div>
+        <Checkbox
+          optionName={Options.IncludeDescription}
+          label="Include description"
+        />
+        <Checkbox
+          optionName={Options.IncludePageNumberWithSource}
+          label="Include page number in source"
+        />
+        <Checkbox
+          optionName={Options.IncludeLink}
+          label="Include Link to Source in Description"
+          hint="Includes a link back to the source URL at the end of the description block."
+        />
+        <TextInput
+          optionName={Options.TargetUrl}
+          label="Target URL"
+          hint={`The URL that the data is sent to. Typically ${
+            OptionDefaults[Options.TargetUrl]
+          }`}
+        />
         <button
           className="bg-brand p-2 text-white"
           onClick={() => props.setShowOptions(false)}
@@ -80,22 +43,70 @@ export function OptionsEditor(props: {
   );
 }
 
-function UpdateCheckbox(optionName: Options) {
-  return (e: ChangeEvent) => {
-    const input = e.target as HTMLInputElement;
-    const newValue = input.checked ? "on" : "off";
-    storage.set({
-      [optionName]: newValue,
+const Checkbox = (props: {
+  optionName: Options;
+  label: string;
+  hint?: string;
+}) => {
+  const [option, setOption] = useState<string>("off");
+  useEffect(() => {
+    storage.getItem(props.optionName).then((value) => {
+      if (typeof value === "string") {
+        setOption(value);
+      }
     });
-  };
-}
+  }, [props.optionName]);
 
-function UpdateText(optionName: Options) {
-  return (e: ChangeEvent) => {
-    const input = e.target as HTMLInputElement;
-    const newValue = input.value;
-    storage.set({
-      [optionName]: newValue,
+  return (
+    <div>
+      <input
+        type="checkbox"
+        className="m-2"
+        id={`checkbox-${props.optionName}`}
+        checked={option === "on"}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          const input = e.target;
+          const newValue = input.checked ? "on" : "off";
+          storage.setItem(props.optionName, newValue);
+          setOption(newValue);
+        }}
+        title={props.hint}
+      />
+      <label htmlFor={`checkbox-${props.optionName}`}>{props.label}</label>
+    </div>
+  );
+};
+
+const TextInput = (props: {
+  optionName: Options;
+  label: string;
+  hint?: string;
+}) => {
+  const [option, setOption] = useState<string>("");
+  useEffect(() => {
+    storage.getItem(props.optionName).then((value) => {
+      if (typeof value === "string") {
+        setOption(value);
+      }
     });
-  };
-}
+  }, [props.optionName]);
+
+  return (
+    <div className="flex flex-row items-center">
+      <label htmlFor={`textinput-${props.optionName}`}>Target URL</label>
+      <input
+        id={`textinput-${props.optionName}`}
+        className="m-2 p-1 border border-brand border-solid rounded-md flex-grow"
+        type="text"
+        value={option}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          const input = e.target;
+          const newValue = input.value;
+          storage.setItem(props.optionName, newValue);
+        }}
+        placeholder={OptionDefaults[props.optionName]}
+        title={props.hint}
+      />
+    </div>
+  );
+};

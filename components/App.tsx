@@ -1,10 +1,8 @@
+import { AllOptions } from "@/utils/options";
 import { HelpText } from "./help_text";
 import { Importer } from "./Importer";
 import { OptionsEditor } from "./optionseditor";
-
-const storage = browser.storage.sync
-  ? browser.storage.sync
-  : browser.storage.local;
+import { storage } from "wxt/storage";
 
 function App() {
   const [importedStatBlock, setImportedStatBlock] = useState<StatBlock>();
@@ -31,14 +29,15 @@ function App() {
   }, []);
 
   useEffect(() => {
-    storage.get(Object.values(Options), (values: AllOptions) => {
-      setOptions(values);
+    storage.getItems(Object.values(Options)).then((values) => {
+      const options = initializeOptionsFromStoredValues(values);
+      setOptions(options);
     });
-  });
+  }, []);
 
   if (showOptions && options) {
     return (
-      <OptionsEditor currentOptions={options} setShowOptions={setShowOptions} />
+      <OptionsEditor setShowOptions={setShowOptions} />
     );
   }
 

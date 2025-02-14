@@ -12,7 +12,7 @@ export function get2024StatBlock(
   doc: Cash,
   statBlockElements: Cash
 ): StatBlock {
-  console.log("Scraping 2024 Statblock");
+  console.log("Found 2024 Statblock");
   const statBlockElement = statBlockElements.first();
   const statBlock: StatBlock = {
     Source: getSource(
@@ -55,6 +55,7 @@ export function get2024StatBlock(
 }
 
 function getSource(element: Cash, includePageNumber: boolean) {
+  console.log("getSource element", element);
   const source = element.text().replace(/\s+/g, " ").replace(" ,", ",").trim();
   if (includePageNumber) {
     return source;
@@ -81,7 +82,7 @@ function getDescription(doc: Cash, options: AllOptions) {
       .replace(/([^\n])\n([^\n])/gm, "$1\n\n$2"); //replace single line breaks with double
   }
   // twloveduck 2021.10.14 -- If the user has set the option then include a link back to DDB in the description.
-  if (options["include-link"] === "on")
+  if (options[Options.IncludeLink] === "on")
     retVal += `\n\n[Link to DNDB Monster](${document.location.href})`;
 
   return retVal.trim();
