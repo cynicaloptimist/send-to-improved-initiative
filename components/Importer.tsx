@@ -11,7 +11,7 @@ export function Importer(props: {
         <div className="flex flex-col flex-grow min-h-0">
           <div className="flex flex-col flex-grow min-h-0">
             <h3>{props.importedStatBlock.Name}</h3>
-            <pre className="overflow-y-auto flex-grow min-h-0">
+            <pre className="p-2 shadow-inner overflow-y-auto flex-grow min-h-0 bg-amber-50">
               {JSON.stringify(props.importedStatBlock, null, 1)}
             </pre>
           </div>
