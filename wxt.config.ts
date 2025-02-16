@@ -9,7 +9,7 @@ export default defineConfig({
     name: "Improved Initiative Importer for D&D Beyond",
     browser_specific_settings: {
       gecko: {
-        id: "send-to-improved-initiative@improvedinitiative.app",
+        id: "extension@improved-initiative.com",
       },
     },
   },
