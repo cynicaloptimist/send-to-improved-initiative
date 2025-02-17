@@ -2,7 +2,7 @@
   "name": "send-to-improved-initiative",
   "description": "A cross browser extension that imports D&D Beyond StatBlocks into Improved Initiative",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
     "url": "https://github.com/cynicaloptimist/send-to-improved-initiative"
   },
@@ -19,6 +19,7 @@
     "build:firefox": "wxt build -b firefox",
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox",
+    "package": "pnpm zip && pnpm zip:firefox",
     "compile": "tsc --noEmit",
     "postinstall": "wxt prepare"
   },
