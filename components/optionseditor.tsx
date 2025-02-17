@@ -102,6 +102,7 @@ const TextInput = (props: {
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
           const input = e.target;
           const newValue = input.value;
+          setOption(newValue)
           storage.setItem(props.optionName, newValue);
         }}
         placeholder={OptionDefaults[props.optionName]}
