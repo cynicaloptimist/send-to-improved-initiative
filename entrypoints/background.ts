@@ -41,8 +41,13 @@ export default defineBackground(() => {
 
   runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.action === "perform-save") {
-      storage.getItem(Options.TargetUrl).then(async (targetUrl) => {
+      storage.getItem(Options.TargetUrl).then(async (targetUrlStored) => {
         const current = await storage.getItem("session:tabId");
+
+        let targetUrl = OptionDefaults[Options.TargetUrl];
+        if (typeof targetUrlStored === "string" && targetUrlStored.length > 0) {
+          targetUrl = targetUrlStored;
+        }
 
         const compressed = lzString.compressToEncodedURIComponent(
           JSON.stringify(request.importedStatBlock)
