@@ -8,7 +8,10 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
   const characterSheetElement = doc.find(prefix("character-sheet"));
   const statBlock: Partial<StatBlock> = {
     Source: "",
-    Name: characterSheetElement.find(prefix("character-tidbits__heading h1")).text().trim(),
+    Name: characterSheetElement
+      .find(prefix("character-tidbits__heading h1"))
+      .text()
+      .trim(),
     Type: characterSheetElement
       .find(prefix("character-summary__race"))
       .text()
@@ -90,13 +93,12 @@ function getArmorClass(element: Cash) {
 }
 
 function getImageUrl(element: Cash) {
-  const backgroundImageAttribute =
-    element.find(prefix("character-avatar__portrait")).css("background-image") ||
-    "";
-  if (!backgroundImageAttribute.length) {
+  const avatarElement = element.find(prefix("character-avatar__portrait"));
+  const imageSrcAttribute = avatarElement.attr("src") || "";
+  if (!imageSrcAttribute.length) {
     return "";
   }
-  return backgroundImageAttribute.split('"')[1];
+  return imageSrcAttribute.split("?")[0];
 }
 
 function getAbilities(element: Cash): AbilityScores {
@@ -185,7 +187,9 @@ function getSkills(element: Cash) {
     .map((el) => {
       return {
         Name: cash(el).find(prefix("skills__col--skill")).text(),
-        Modifier: parseInt(cash(el).find(prefix("skills__col--modifier")).text()),
+        Modifier: parseInt(
+          cash(el).find(prefix("skills__col--modifier")).text()
+        ),
       };
     });
 }
