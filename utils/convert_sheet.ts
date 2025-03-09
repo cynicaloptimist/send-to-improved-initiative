@@ -70,6 +70,10 @@ function getHitPoints(element: Cash) {
     maxHP = element.find(".ct-status-summary-mobile__hp-max").text().trim();
   }
 
+  if (!maxHP?.length) {
+    maxHP = element.find("[data-testid='max-hp']").text().trim();
+  }
+
   return {
     Value: parseInt(maxHP),
     Notes: "",
