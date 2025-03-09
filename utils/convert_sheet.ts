@@ -39,7 +39,7 @@ export const convertCharacterSheetToStatBlock = (options: AllOptions) => {
     Senses: getSenses(characterSheetElement),
     Languages: getLanguages(characterSheetElement),
     Challenge: characterSheetElement
-      .find(prefix("character-tidbits__classes"))
+      .find(prefix("character-summary__classes"))
       .text()
       .trim(),
     Traits: [],
