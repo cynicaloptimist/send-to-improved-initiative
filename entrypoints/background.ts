@@ -62,6 +62,9 @@ export default defineBackground(() => {
         );
 
         let iiUrl = targetUrl + "?i=" + compressed;
+        if (request.importedItem.type === "spell") {
+          iiUrl += "&t=sp";
+        }
         if (current && typeof current === "number") {
           try {
             tabs.update(current, { url: iiUrl, active: true }, (tab) => {

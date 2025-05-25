@@ -38,7 +38,9 @@ export function Importer(props: {
 }
 
 var renderPortraitWarningIfNeeded = (item: ImportedItem) => {
-var renderPortraitWarningIfNeeded = (data: StatBlock) => {
+  if (item.type === "spell") {
+    return "";
+  }
   const data = item.data;
   if (data && data.ImageURL && data.ImageURL.length > 0) {
     return "";

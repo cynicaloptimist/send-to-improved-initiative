@@ -1,5 +1,6 @@
 import { extractStatBlock } from "@/utils/extractstatblock";
 import { convertCharacterSheetToStatBlock } from "@/utils/convert_sheet";
+import { extractSpell } from "@/utils/extract_spell";
 import { ScrapeStatBlockAction } from "@/utils/actions";
 import { Options } from "@/utils/options";
 import { storage } from "wxt/storage";
@@ -18,7 +19,7 @@ export default defineContentScript({
       if (request.action == ScrapeStatBlockAction) {
         console.log("Getting storage");
         storage.getItems(Object.values(Options)).then((optionsFromStorage) => {
-          console.log("Scraping statblock");
+          console.log("Scraping for statblock or spell");
           const options = initializeOptionsFromStoredValues(optionsFromStorage);
           if (document.getElementsByClassName("mon-stat-block").length > 0) {
             return sendResponse({
@@ -45,7 +46,11 @@ export default defineContentScript({
             });
           }
 
-          console.log("No statblock found");
+          if (document.getElementsByClassName("spell-details").length > 0) {
+            return sendResponse({ type: "spell", data: extractSpell(options) });
+          }
+
+          console.log("No importable items found");
 
           sendResponse(null);
         });
