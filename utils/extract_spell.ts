@@ -44,7 +44,8 @@ export const extractSpell = (options: AllOptions) => {
     Range: spellElement
       .find(".ddb-statblock-item-range-area .ddb-statblock-item-value")
       .text()
-      .trim(),
+      .trim()
+      .replace(/\s{2,}/g, " "),
     Components: spellElement
       .find(".ddb-statblock-item-components .ddb-statblock-item-value")
       .text()
