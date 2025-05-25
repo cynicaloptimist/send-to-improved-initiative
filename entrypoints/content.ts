@@ -1,7 +1,7 @@
 import { extractStatBlock } from "@/utils/extractstatblock";
 import { convertCharacterSheetToStatBlock } from "@/utils/convert_sheet";
 import { ScrapeStatBlockAction } from "@/utils/actions";
-import { Options, AllOptions } from "@/utils/options";
+import { Options } from "@/utils/options";
 import { storage } from "wxt/storage";
 
 export default defineContentScript({
@@ -21,19 +21,28 @@ export default defineContentScript({
           console.log("Scraping statblock");
           const options = initializeOptionsFromStoredValues(optionsFromStorage);
           if (document.getElementsByClassName("mon-stat-block").length > 0) {
-            return sendResponse(extractStatBlock(options));
+            return sendResponse({
+              type: "statblock",
+              data: extractStatBlock(options),
+            });
           }
 
           if (
             document.getElementsByClassName("mon-stat-block-2024").length > 0
           ) {
-            return sendResponse(extractStatBlock(options));
+            return sendResponse({
+              type: "statblock",
+              data: extractStatBlock(options),
+            });
           }
 
           if (
             document.getElementsByClassName("ct-character-sheet").length > 0
           ) {
-            return sendResponse(convertCharacterSheetToStatBlock(options));
+            return sendResponse({
+              type: "statblock",
+              data: convertCharacterSheetToStatBlock(options),
+            });
           }
 
           console.log("No statblock found");

@@ -1,5 +1,7 @@
+import { ImportedItem } from "@/utils/imported_item";
+
 export function Importer(props: {
-  importedStatBlock?: StatBlock;
+  importedItem?: ImportedItem;
   setShowOptions: (show: boolean) => void;
 }) {
   return (
@@ -7,18 +9,18 @@ export function Importer(props: {
       <h1 className="text-brand font-bold text-lg">
         Import to Improved Initiative
       </h1>
-      {props.importedStatBlock && (
+      {props.importedItem && (
         <div className="flex flex-col flex-grow min-h-0">
           <div className="flex flex-col flex-grow min-h-0">
-            <h3>{props.importedStatBlock.Name}</h3>
+            <h3>{props.importedItem.data.Name}</h3>
             <pre className="p-2 shadow-inner overflow-y-auto flex-grow min-h-0 bg-amber-50">
-              {JSON.stringify(props.importedStatBlock, null, 1)}
+              {JSON.stringify(props.importedItem.data, null, 1)}
             </pre>
           </div>
-          {renderPortraitWarningIfNeeded(props.importedStatBlock)}
+          {renderPortraitWarningIfNeeded(props.importedItem)}
           <button
             className="bg-brand p-2 text-white"
-            onClick={importStatBlock(props.importedStatBlock)}
+            onClick={importItem(props.importedItem)}
           >
             Import
           </button>
@@ -35,7 +37,9 @@ export function Importer(props: {
   );
 }
 
+var renderPortraitWarningIfNeeded = (item: ImportedItem) => {
 var renderPortraitWarningIfNeeded = (data: StatBlock) => {
+  const data = item.data;
   if (data && data.ImageURL && data.ImageURL.length > 0) {
     return "";
   }
@@ -47,10 +51,10 @@ var renderPortraitWarningIfNeeded = (data: StatBlock) => {
   );
 };
 
-function importStatBlock(statBlock: StatBlock) {
+function importItem(item: ImportedItem) {
   return () =>
     browser.runtime.sendMessage(
-      { action: "perform-save", importedStatBlock: statBlock },
+      { action: "perform-save", importedItem: item },
       function (response) {
         if (response && response.action === "saved") {
           console.log("ok");

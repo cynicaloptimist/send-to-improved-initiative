@@ -1,9 +1,10 @@
+import { ImportedItem } from "@/utils/imported_item";
 import { HelpText } from "./help_text";
 import { Importer } from "./Importer";
 import { OptionsEditor } from "./optionseditor";
 
 function App() {
-  const [importedStatBlock, setImportedStatBlock] = useState<StatBlock>();
+  const [importedItem, setImportedItem] = useState<ImportedItem>();
   const [showOptions, setShowOptions] = useState(false);
 
   useEffect(() => {
@@ -19,7 +20,7 @@ function App() {
         browser.tabs.sendMessage(
           activeTabId,
           { action: ScrapeStatBlockAction },
-          setImportedStatBlock
+          setImportedItem
         );
       }
     );
@@ -29,13 +30,13 @@ function App() {
     return <OptionsEditor setShowOptions={setShowOptions} />;
   }
 
-  if (!importedStatBlock) {
+  if (!importedItem) {
     return <HelpText setShowOptions={setShowOptions} />;
   }
 
   return (
     <Importer
-      importedStatBlock={importedStatBlock}
+      importedItem={importedItem}
       setShowOptions={setShowOptions}
     />
   );

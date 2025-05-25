@@ -1,3 +1,4 @@
+import { ImportedItem } from "@/utils/imported_item";
 import { OptionDefaults, Options } from "@/utils/options";
 import lzString from "lz-string";
 import { storage } from "wxt/storage";
@@ -39,7 +40,14 @@ export default defineBackground(() => {
     }
   });
 
-  runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  runtime.onMessage.addListener(function (
+    request: {
+      action: string;
+      importedItem: ImportedItem;
+    },
+    sender,
+    sendResponse
+  ) {
     if (request.action === "perform-save") {
       storage.getItem(Options.TargetUrl).then(async (targetUrlStored) => {
         const current = await storage.getItem("session:tabId");
@@ -50,7 +58,7 @@ export default defineBackground(() => {
         }
 
         const compressed = lzString.compressToEncodedURIComponent(
-          JSON.stringify(request.importedStatBlock)
+          JSON.stringify(request.importedItem.data)
         );
 
         let iiUrl = targetUrl + "?i=" + compressed;
